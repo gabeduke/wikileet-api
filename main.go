@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/gabeduke/wikileet/controllers"
-	"github.com/gabeduke/wikileet/models"
+	"github.com/gabeduke/wikileet-api/controllers"
+	"github.com/gabeduke/wikileet-api/models"
 	"github.com/gin-gonic/gin"
 	"github.com/kelseyhightower/envconfig"
 )
