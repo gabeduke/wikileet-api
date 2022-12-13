@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/gabeduke/wikileet/models"
+	"github.com/gabeduke/wikileet-api/models"
 	"github.com/gin-gonic/gin"
 )
 

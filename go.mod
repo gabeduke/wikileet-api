@@ -1,4 +1,4 @@
-module github.com/gabeduke/wikileet
+module github.com/gabeduke/wikileet-api
 
 go 1.19
 
