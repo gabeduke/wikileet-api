@@ -20,5 +20,5 @@ jobs:
           echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Build and Push
         run: |
-          acorn build -p linux/amd64,linux/arm64,linux/arm7 --tag docker.io/dukeman/wikileet-api:$TAG .
-          acorn push docker.io/dukeman/wikileet-api:$TAG
+          acorn build -p linux/amd64,linux/arm64 --tag docker.io/dukeman/wikileet-acorn:$TAG .
+          acorn push docker.io/dukeman/wikileet-acorn:$TAG
