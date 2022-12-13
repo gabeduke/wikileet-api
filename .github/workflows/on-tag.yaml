@@ -13,8 +13,8 @@ jobs:
       - uses: acorn-io/actions-login@v1
         with:
           registry: docker.io
-          username: ${{ DOCKERHUB_USERNAME }}
-          password: ${{ DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Set Tag
         run: |
           echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
