@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  app:
+    image: dukeman/wikileet
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - ${PWD}/database:/app/wiki/database
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "gorm"
+      PGDATA: /pgdata
+    volumes:
+      - "postgres_data:/pgdata"
+    user: "2000"
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
