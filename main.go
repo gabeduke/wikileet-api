@@ -1,10 +1,12 @@
 package main
 
 import (
+	docs "github.com/gabeduke/wikileet-api/docs"
 	"github.com/gabeduke/wikileet-api/pkg/config"
-	"github.com/gabeduke/wikileet-api/pkg/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 )
 
@@ -32,15 +34,17 @@ func main() {
 	}
 
 	// Configure router
+	docs.SwaggerInfo.BasePath = "/api/v1"
 	r := gin.New()
 	r.Use(
 		gin.LoggerWithWriter(gin.DefaultWriter, "/live", "/ready"),
 		gin.Recovery(),
-		middleware.User(),
+		app.GetUserMiddleware(),
 	)
 
 	r.GET("/live", gin.WrapF(health.LiveEndpoint))
 	r.GET("/ready", gin.WrapF(health.ReadyEndpoint))
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// Register routes
 	v1 := r.Group("/api/v1")

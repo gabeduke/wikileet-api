@@ -1,0 +1,25 @@
+info:
+  contact: {}
+paths:
+  /items:
+    get:
+      consumes:
+      - application/json
+      description: get items
+      parameters:
+      - description: search by email address
+        format: email
+        in: query
+        name: user_email
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get items
+      tags:
+      - item
+swagger: "2.0"
