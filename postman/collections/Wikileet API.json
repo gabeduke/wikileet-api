@@ -1,0 +1,520 @@
+{
+	"info": {
+		"_postman_id": "cebadc52-91de-47ea-a849-a63d4738a5e5",
+		"name": "Wikileet API",
+		"description": "Wikileet gift lists API\n\nContact Support:\n Name: Wikileet Support\n Email: support@leetserve.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "1351504-cebadc52-91de-47ea-a849-a63d4738a5e5"
+	},
+	"item": [
+		{
+			"name": "item/:id",
+			"item": [
+				{
+					"name": "Get item",
+					"id": "fb1ce171-79bb-4471-97e7-a46fd854a1ff",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) user email",
+								"key": "X-User",
+								"value": "api_docs@leetserve.com"
+							},
+							{
+								"description": "user workspace",
+								"key": "X-Workspace",
+								"value": "default"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/item/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"item",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id"
+								}
+							]
+						},
+						"description": "Get item by id."
+					},
+					"response": [
+						{
+							"id": "ef7389d8-f2de-4ba6-b7cd-9dd44268ca25",
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) user email",
+										"key": "X-User",
+										"value": "api_docs@leetserve.com"
+									},
+									{
+										"description": "user workspace",
+										"key": "X-Workspace",
+										"value": "default"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/item/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								},
+								"description": "Get item by id."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"aliquip ullamco Excepteur qui\""
+						}
+					]
+				},
+				{
+					"name": "Delete item",
+					"id": "d84c37d4-3fa3-4d98-8115-b0efec82b0e3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"description": "(Required) user email",
+								"key": "X-User",
+								"value": "api_docs@leetserve.com"
+							},
+							{
+								"description": "user workspace",
+								"key": "X-Workspace",
+								"value": "default"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/item/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"item",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id"
+								}
+							]
+						},
+						"description": "Delete item by id."
+					},
+					"response": [
+						{
+							"id": "4cbbfe03-497e-4698-93d1-baaf7418fd73",
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "(Required) user email",
+										"key": "X-User",
+										"value": "api_docs@leetserve.com"
+									},
+									{
+										"description": "user workspace",
+										"key": "X-Workspace",
+										"value": "default"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/item/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								},
+								"description": "Delete item by id."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"aliquip ullamco Excepteur qui\""
+						}
+					]
+				},
+				{
+					"name": "Update item",
+					"id": "e17b5993-d082-4434-9a3d-07635d1cb679",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"description": "(Required) user email",
+								"key": "X-User",
+								"value": "api_docs@leetserve.com"
+							},
+							{
+								"description": "user workspace",
+								"key": "X-Workspace",
+								"value": "default"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/item/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"item",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id"
+								}
+							]
+						},
+						"description": "Get item by id."
+					},
+					"response": [
+						{
+							"id": "94e68c30-2970-4140-8c12-5e24d1d1b5dc",
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"description": "(Required) user email",
+										"key": "X-User",
+										"value": "api_docs@leetserve.com"
+									},
+									{
+										"description": "user workspace",
+										"key": "X-Workspace",
+										"value": "default"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/item/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								},
+								"description": "Get item by id."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"aliquip ullamco Excepteur qui\""
+						}
+					]
+				}
+			],
+			"id": "7a236d4b-08ec-4acf-ab4d-979967c77d6c"
+		},
+		{
+			"name": "items",
+			"item": [
+				{
+					"name": "Get items",
+					"id": "9db5ae55-8b11-45ea-b84b-76508e81082c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) user email",
+								"key": "X-User",
+								"value": "api_docs@leetserve.com"
+							},
+							{
+								"description": "(Required) user workspace",
+								"key": "X-Workspace",
+								"value": "default"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/items?user_email=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"items"
+							],
+							"query": [
+								{
+									"key": "user_email",
+									"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+									"description": "search by email address"
+								}
+							]
+						},
+						"description": "List items by user email."
+					},
+					"response": [
+						{
+							"id": "18d51b1d-7aa5-49ac-94f8-eeb18b80c7ff",
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) user email",
+										"key": "X-User",
+										"value": "api_docs@leetserve.com"
+									},
+									{
+										"description": "(Required) user workspace",
+										"key": "X-Workspace",
+										"value": "default"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/items?user_email=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"items"
+									],
+									"query": [
+										{
+											"key": "user_email",
+											"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+											"description": "search by email address"
+										}
+									]
+								},
+								"description": "List items by user email."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"aliquip ullamco Excepteur qui\""
+						}
+					]
+				},
+				{
+					"name": "Creat item",
+					"id": "88c05c5a-d902-4049-8501-63f8ddc4bf3b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) user email",
+								"key": "X-User",
+								"value": "api_docs@leetserve.com"
+							},
+							{
+								"description": "(Required) user workspace",
+								"key": "X-Workspace",
+								"value": "default"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/items?user_email=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga&workspace=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"items"
+							],
+							"query": [
+								{
+									"key": "user_email",
+									"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+									"description": "associate item with user"
+								},
+								{
+									"key": "workspace",
+									"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+									"description": "associate item with workspace"
+								}
+							]
+						},
+						"description": "Create a new item."
+					},
+					"response": [
+						{
+							"id": "82c511d1-344e-4b7f-87c4-60e5740ca65f",
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) user email",
+										"key": "X-User",
+										"value": "api_docs@leetserve.com"
+									},
+									{
+										"description": "(Required) user workspace",
+										"key": "X-Workspace",
+										"value": "default"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/items?user_email=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga&workspace=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"items"
+									],
+									"query": [
+										{
+											"key": "user_email",
+											"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+											"description": "associate item with user"
+										},
+										{
+											"key": "workspace",
+											"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+											"description": "associate item with workspace"
+										}
+									]
+								},
+								"description": "Create a new item."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"aliquip ullamco Excepteur qui\""
+						}
+					]
+				}
+			],
+			"id": "767aec5f-cf84-49a8-87df-c2917fdf7359"
+		}
+	],
+	"variable": [
+		{
+			"id": "cc164460-f5ba-4f0f-b63d-c0a5ba0c8d7b",
+			"key": "baseUrl",
+			"value": "//http://localhost:8080/api/v1",
+			"type": "string"
+		}
+	]
+}
