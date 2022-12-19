@@ -17,26 +17,30 @@ type App struct {
 type AppI interface {
 	GetHealthHandler() (healthcheck.Handler, error)
 	GetUserMiddleware() gin.HandlerFunc
-	FindItems(c *gin.Context)
+	GetItems(c *gin.Context)
 	CreateItem(c *gin.Context)
-	FindItem(c *gin.Context)
+	GetItem(c *gin.Context)
 	UpdateItem(c *gin.Context)
 	DeleteItem(c *gin.Context)
 }
 
 //	@BasePath	/api/v1
 
-// FindItems godoc
-//	@Summary	get items
-//	@Schemes
-//	@Description	get items
+// GetItems GET /items
+// returns the list of items associated with the user
+//
+//	@Summary		Get items
+//	@Schemes		http https
+//	@Description	List items by user email.
 //	@Tags			item
 //	@Accept			json
 //	@Produce		json
 //	@Param			user_email	query		string	false	"search by email address"	Format(email)
-//	@Success		200			{string}	Helloworld
+//	@Param			X-User		header		string	true	"user email"				default(api_docs@leetserve.com)
+//	@Param			X-Workspace	header		string	true	"user workspace"			default(default)
+//	@Success		200			{string}	model.Item
 //	@Router			/items [get]
-func (a *App) FindItems(c *gin.Context) {
+func (a *App) GetItems(c *gin.Context) {
 	user := &User{}
 
 	userEmail := c.DefaultQuery("user_email", c.GetString(contextKeyUserEmail))
@@ -47,6 +51,19 @@ func (a *App) FindItems(c *gin.Context) {
 
 // CreateItem POST /items
 // Create new Item
+//
+//	@Summary		Creat item
+//	@Schemes		http https
+//	@Description	Create a new item.
+//	@Tags			item
+//	@Accept			json
+//	@Produce		json
+//	@Param			user_email	query		string	false	"associate item with user"		Format(email)
+//	@Param			workspace	query		string	false	"associate item with workspace"	Format(email)
+//	@Param			X-User		header		string	true	"user email"					default(api_docs@leetserve.com)
+//	@Param			X-Workspace	header		string	true	"user workspace"				default(default)
+//	@Success		200			{string}	model.Item
+//	@Router			/items [post]
 func (a *App) CreateItem(c *gin.Context) {
 	workspace := &Workspace{}
 	user := &User{}
@@ -85,9 +102,20 @@ func (a *App) CreateItem(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": item})
 }
 
-// FindItem GET /Item/:id
-// Find a Item
-func (a *App) FindItem(c *gin.Context) { // Get model if exist
+// GetItem GET /Item/:id
+// Get new Item
+//
+//	@Summary		Get item
+//	@Schemes		http https
+//	@Description	Get item by id.
+//	@Tags			item
+//	@Accept			json
+//	@Produce		json
+//	@Param			X-User		header		string	true	"user email"		default(api_docs@leetserve.com)
+//	@Param			X-Workspace	header		string	false	"user workspace"	default(default)
+//	@Success		200			{string}	model.Item
+//	@Router			/item/:id [get]
+func (a *App) GetItem(c *gin.Context) { // Get model if exist
 	var item Item
 
 	if err := a.DB.Where("id = ?", c.Param("id")).First(&item).Error; err != nil {
@@ -100,6 +128,17 @@ func (a *App) FindItem(c *gin.Context) { // Get model if exist
 
 // UpdateItem PATCH /Item/:id
 // Update a Item
+//
+//	@Summary		Update item
+//	@Schemes		http https
+//	@Description	Get item by id.
+//	@Tags			item
+//	@Accept			json
+//	@Produce		json
+//	@Param			X-User		header		string	true	"user email"		default(api_docs@leetserve.com)
+//	@Param			X-Workspace	header		string	false	"user workspace"	default(default)
+//	@Success		200			{string}	model.Item
+//	@Router			/item/:id [patch]
 func (a *App) UpdateItem(c *gin.Context) {
 	// Get model if exist
 	var item Item
@@ -122,6 +161,17 @@ func (a *App) UpdateItem(c *gin.Context) {
 
 // DeleteItem DELETE /items/:id
 // Delete a Item
+//
+//	@Summary		Delete item
+//	@Schemes		http https
+//	@Description	Delete item by id.
+//	@Tags			item
+//	@Accept			json
+//	@Produce		json
+//	@Param			X-User		header		string	true	"user email"		default(api_docs@leetserve.com)
+//	@Param			X-Workspace	header		string	false	"user workspace"	default(default)
+//	@Success		200			{string}	model.Item
+//	@Router			/item/:id [delete]
 func (a *App) DeleteItem(c *gin.Context) {
 	// Get model if exist
 	var item Item
