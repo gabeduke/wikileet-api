@@ -60,6 +60,9 @@ func (a *App) GetItems(c *gin.Context) {
 //	@Produce		json
 //	@Param			user_email	query		string	false	"associate item with user"		Format(email)
 //	@Param			workspace	query		string	false	"associate item with workspace"	Format(email)
+//	@Param			name		query		string	false	"Item name"						Format(email)
+//	@Param			description	query		string	false	"Item description"				Format(email)
+//	@Param			url			query		string	false	"Item help URL"					Format(email)
 //	@Param			X-User		header		string	true	"user email"					default(api_docs@leetserve.com)
 //	@Param			X-Workspace	header		string	true	"user workspace"				default(default)
 //	@Success		200			{string}	model.Item

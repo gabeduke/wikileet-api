@@ -210,6 +210,27 @@
                     },
                     {
                         "type": "string",
+                        "format": "email",
+                        "description": "Item name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "description": "Item description",
+                        "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "description": "Item help URL",
+                        "name": "url",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "default": "api_docs@leetserve.com",
                         "description": "user email",
                         "name": "X-User",

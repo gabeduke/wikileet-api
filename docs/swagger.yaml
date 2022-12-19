@@ -140,6 +140,21 @@ paths:
         in: query
         name: workspace
         type: string
+      - description: Item name
+        format: email
+        in: query
+        name: name
+        type: string
+      - description: Item description
+        format: email
+        in: query
+        name: description
+        type: string
+      - description: Item help URL
+        format: email
+        in: query
+        name: url
+        type: string
       - default: api_docs@leetserve.com
         description: user email
         in: header
