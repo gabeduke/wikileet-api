@@ -5,6 +5,7 @@ import (
 	"github.com/gabeduke/wikileet-api/pkg/config"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
@@ -27,9 +28,9 @@ import (
 //	@host		http://localhost:8080
 //	@BasePath	/api/v1
 
-//	@securitydefinitions.oauth2.application					OAuth2Application
-//	@tokenUrl												https://oauth2.googleapis.com/token
-//	@scope.https://www.googleapis.com/auth/userinfo.email	See your primary Google Account email address
+// @securitydefinitions.oauth2.application					OAuth2Application
+// @tokenUrl												https://oauth2.googleapis.com/token
+// @scope.https://www.googleapis.com/auth/userinfo.email	See your primary Google Account email address
 func main() {
 	logrus.Info("Starting Wikileet API")
 
@@ -60,6 +61,7 @@ func main() {
 		gin.LoggerWithWriter(gin.DefaultWriter, "/live", "/ready"),
 		gin.Recovery(),
 		app.GetUserMiddleware(),
+		CORSMiddleware(),
 	)
 
 	r.GET("/live", gin.WrapF(health.LiveEndpoint))
@@ -78,4 +80,20 @@ func main() {
 
 	// Start and run the server
 	r.Run()
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With, X-User, X-Workspace")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }
