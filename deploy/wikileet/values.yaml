@@ -68,7 +68,7 @@ ingress:
     "external-dns.alpha.kubernetes.io/hostname": "api.wikileet.leetserve.com"
     "ingress.kubernetes.io/ssl-redirect": "true"
     "cert-manager.io/cluster-issuer": "letsencrypt-prod"
-    "traefik.ingress.kubernetes.io/router.middlewares": kube-system-traefik-forward-auth@kubernetescrd
+#    "traefik.ingress.kubernetes.io/router.middlewares": kube-system-traefik-forward-auth@kubernetescrd
 
   hosts:
     - host: api.wikileet.leetserve.com
