@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: "{{ include "wikileet.fullname" . }}-test-connection"
   labels:
-    {{- include "wikileet.labels" . | nindent 4 }}
+    {{- include "wikileet-api.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:

@@ -5,6 +5,14 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{- define "wikileet-ui.name" -}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}-ui
+{{- end }}
+
+{{- define "wikileet-api.name" -}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}-api
+{{- end }}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
@@ -35,7 +43,6 @@ Common labels
 */}}
 {{- define "wikileet.labels" -}}
 helm.sh/chart: {{ include "wikileet.chart" . }}
-{{ include "wikileet.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,11 +50,36 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app: {{ include "wikileet.name" . }}
 {{- end }}
 
+{{- define "wikileet-ui.labels" -}}
+helm.sh/chart: {{ include "wikileet.chart" . }}
+{{ include "wikileet-ui.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app: {{ include "wikileet-ui.name" . }}
+{{- end }}
+
+{{- define "wikileet-api.labels" -}}
+helm.sh/chart: {{ include "wikileet.chart" . }}-ui
+{{ include "wikileet-api.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app: {{ include "wikileet-api.name" . }}
+{{- end }}
+
 {{/*
 Selector labels
 */}}
-{{- define "wikileet.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "wikileet.name" . }}
+{{- define "wikileet-ui.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "wikileet-ui.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "wikileet-api.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "wikileet-api.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

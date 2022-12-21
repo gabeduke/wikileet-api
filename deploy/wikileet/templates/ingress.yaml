@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "wikileet.fullname" . -}}
+{{- $fullName := include "wikileet.name" . -}}
 {{- $svcPort := .Values.service.port -}}
 {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
@@ -37,6 +37,37 @@ spec:
     {{- end }}
   {{- end }}
   rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ include "wikileet-api.name" . }}
+                port:
+                  number: 80
+            path: /swagger/
+            pathType: Prefix
+          - backend:
+              service:
+                name: {{ include "wikileet-api.name" . }}
+                port:
+                  number: 80
+            path: /_oauth/
+            pathType: Prefix
+          - backend:
+              service:
+                name: {{ include "wikileet-api.name" . }}
+                port:
+                  number: 80
+            path: /api/v1/
+            pathType: Prefix
+          - backend:
+              service:
+                name: {{ include "wikileet-ui.name" . }}
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
       http:

@@ -1,5 +1,5 @@
 <script>
-const API_URL = `http://localhost:8080/api/v1/items`
+const API_URL = `https://dev.wikileet.leetserve.com/api/v1/items`;
 
 
 export default {
