@@ -1,6 +1,7 @@
 <script>
-const API_URL = `https://dev.wikileet.leetserve.com/api/v1/items`;
+import axios from 'axios';
 
+const API_URL = `/api/v1/items`;
 
 export default {
   data: () => ({
@@ -20,10 +21,8 @@ export default {
 
   methods: {
     async fetchData() {
-      const reponse = await fetch(API_URL, {headers: { "X-User": "gabeduke@gmail.com"}});
-      const json = await reponse.json();
-      this.items = json.data;
-      console.log(this.items);
+      await axios.get(API_URL).then(response => (this.items = response.data))
+      console.log(this.items.data);
     },
   }
 }
@@ -32,8 +31,11 @@ export default {
 <template>
   <h1>Items</h1>
   <ul>
-    <li v-for="item in items">name: {{ item.name }}, desc: {{ item.description }}, url: {{ item.url }}</li>
+    <li v-for="item in items.data">name: {{ item.name }}, desc: {{ item.description }}, url: {{ item.url }}</li>
   </ul>
+  <div>
+    <button class="btn btn-primary" v-on:click="fetchData()">Refresh</button>
+  </div>
 </template>
 
 <style>
