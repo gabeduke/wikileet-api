@@ -19,8 +19,8 @@ export default {
   created() {
     // fetch on init
     this.fetchItems()
-    this.fetchUsers()
     this.getDefaultUser()
+    this.fetchUsers()
   },
 
   watch: {

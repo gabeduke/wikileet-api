@@ -5,6 +5,8 @@ const BASE_URL = import.meta.env.VITE_BASE_URL || "";
 const API_URL = `${BASE_URL}/api/v1`;
 
 export default {
+    selectUser: null,
+    users: [],
     name: 'PostFormAxios',
     data(){
         return{
@@ -15,9 +17,13 @@ export default {
             }
         }
     },
+    created() {
+        // fetch on init
+        this.fetchUsers()
+    },
     methods:{
         submitForm(){
-            axios.post(API_URL, this.form)
+            axios.post(API_URL,{params: {user_email:this.selectUser}}, this.form)
                  .then((res) => {
                      //Perform Success Action
                      console.log(res);
@@ -31,6 +37,10 @@ export default {
         },
         resetForm () {
             this.$refs.create.reset()
+        },
+        async fetchUsers() {
+            await axios.get(API_URL+"/users").then(response => (this.users = response.data.data))
+            console.log(this.users);
         }
     }
 }
@@ -40,6 +50,14 @@ export default {
     <div>
 
             <h2> Create Item </h2>
+            <div>
+                <v-select
+                v-model="selectUser"
+                :options="users"
+                label="email"
+                :reduce="user => user.email"
+                />
+            </div>
             <form ref="create" v-on:submit.prevent="submitForm">
                 <div class="form-group">
                     <label for="name">Name</label>
