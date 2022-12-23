@@ -78,6 +78,8 @@ func main() {
 	v1.PATCH("/items/:id", app.UpdateItem)
 	v1.DELETE("/items/:id", app.DeleteItem)
 
+	v1.GET("/users", app.GetUsers)
+
 	// Start and run the server
 	r.Run()
 }

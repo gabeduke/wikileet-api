@@ -187,3 +187,9 @@ func (a *App) DeleteItem(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
+
+func (a *App) GetUsers(c *gin.Context) {
+	var users []User
+	a.DB.Find(&users)
+	c.JSON(http.StatusOK, gin.H{"data": users})
+}
