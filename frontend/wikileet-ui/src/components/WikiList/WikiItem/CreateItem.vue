@@ -1,7 +1,8 @@
 <script>
 import axios from 'axios';
 
-const API_URL = `${import.meta.env.VITE_BASE_URL}/api/v1/items`;
+const BASE_URL = import.meta.env.VITE_BASE_URL || "";
+const API_URL = `${BASE_URL}/api/v1`;
 
 export default {
     name: 'PostFormAxios',

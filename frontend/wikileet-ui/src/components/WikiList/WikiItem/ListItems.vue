@@ -2,11 +2,12 @@
 import vSelect from "vue-select"
 import axios from 'axios';
 
-const API_URL = `${import.meta.env.VITE_BASE_URL}/api/v1`;
+const BASE_URL = import.meta.env.VITE_BASE_URL || "";
+const API_URL = `${BASE_URL}/api/v1`;
 
 export default {
   data: () => ({
-    selectUser:null,
+    selectUser: null,
     users: [],
     items: []
   }),
@@ -19,6 +20,7 @@ export default {
     // fetch on init
     this.fetchItems()
     this.fetchUsers()
+    this.getDefaultUser()
   },
 
   watch: {
@@ -34,6 +36,11 @@ export default {
     async fetchUsers() {
       await axios.get(API_URL+"/users").then(response => (this.users = response.data.data))
       console.log(this.users);
+    },
+    async getDefaultUser() {
+      const myHeaders = new Headers();
+      const u = myHeaders.get('X-User');
+      this.selectUser = u;
     }
   }
 }
