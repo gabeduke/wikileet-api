@@ -79,6 +79,73 @@ func (a *App) GetUserItems(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": user.Items})
 }
 
+// CreateItem POST /items
+// Create new Item
+//
+//	@Summary		Create item
+//	@Schemes		http https
+//	@Description	Create a new item.
+//	@Tags			item
+//	@Accept			json
+//	@Produce		json
+//	@Param			user_email	query		string	false	"associate item with user"		Format(email)
+//	@Param			workspace	query		string	false	"associate item with workspace"	Format(email)
+//	@Param			name		query		string	false	"Item name"						Format(email)
+//	@Param			description	query		string	false	"Item description"				Format(email)
+//	@Param			url			query		string	false	"Item help URL"					Format(email)
+//	@Success		200			{string}	model.Item
+//	@Router			/workspaces/:id/users/:id/items [post]
+func (a *App) CreateItem(c *gin.Context) {
+	workspaceId, found := c.Get(contextKeyWorkspaceID)
+	if !found {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing workspace ID"})
+		return
+	}
+
+	if _, ok := workspaceId.(uint); !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid workspace ID"})
+		return
+	}
+
+	userEmail, found := c.GetQuery("user_email")
+	if !found {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing user"})
+		return
+	}
+
+	//w64, err := strconv.ParseUint(workspace, 10, 64)
+	//if err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid workspace id"})
+	//	return
+	//}
+
+	user := &User{}
+	if err := a.DB.Where("email = ?", userEmail).First(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Unable to find User"})
+		return
+	}
+
+	// Validate input
+	var input createItemInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Create item
+	item := Item{
+		Name:        input.Name,
+		Description: input.Description,
+		URL:         input.URL,
+		UserID:      user.ID,
+		WorkspaceID: workspaceId.(uint),
+	}
+
+	a.DB.Create(&item)
+
+	c.JSON(http.StatusOK, gin.H{"data": item})
+}
+
 // CreateUserItem POST /users/:id/items
 // Create new Item
 //
@@ -215,7 +282,7 @@ func (a *App) GetWorkspaceUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": users})
 }
 
-// CreateWorkspaceUser POST /users
+// CreateUser POST /users
 // Create new User
 //
 //	@Summary		Creat user
@@ -227,12 +294,10 @@ func (a *App) GetWorkspaceUsers(c *gin.Context) {
 //	@Param			user_email	query		string	false	"associate item with user"	Format(email)
 //	@Param			name		query		string	false	"Username"					Format(email)
 //	@Success		200			{string}	model.Item
-//	@Router			/workspaces/:id/users [post]
-func (a *App) CreateWorkspaceUser(c *gin.Context) {
+//	@Router			/users [post]
+func (a *App) CreateUser(c *gin.Context) {
 	user := &User{}
-	workspace := &Workspace{}
-
-	a.DB.Where("id = ?", c.Param("workspace")).First(&workspace)
+	workspace := &Workspace{Name: "default"}
 
 	// Validate input
 	var input createUserInput

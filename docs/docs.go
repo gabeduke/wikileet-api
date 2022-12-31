@@ -152,6 +152,43 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create a new user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Creat user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "description": "associate item with user",
+                        "name": "user_email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "description": "Username",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
             }
         },
         "/users/:id": {
@@ -234,45 +271,6 @@ const docTemplate = `{
                     "workspace"
                 ],
                 "summary": "Get workspace",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/workspaces/:id/users": {
-            "post": {
-                "description": "Create a new user.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Creat user",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "associate item with user",
-                        "name": "user_email",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Username",
-                        "name": "name",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",

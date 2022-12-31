@@ -98,6 +98,31 @@ paths:
       summary: Get users
       tags:
       - user
+    post:
+      consumes:
+      - application/json
+      description: Create a new user.
+      parameters:
+      - description: associate item with user
+        format: email
+        in: query
+        name: user_email
+        type: string
+      - description: Username
+        format: email
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Creat user
+      tags:
+      - user
   /users/:id:
     get:
       consumes:
@@ -157,32 +182,6 @@ paths:
       summary: Get workspace
       tags:
       - workspace
-  /workspaces/:id/users:
-    post:
-      consumes:
-      - application/json
-      description: Create a new user.
-      parameters:
-      - description: associate item with user
-        format: email
-        in: query
-        name: user_email
-        type: string
-      - description: Username
-        format: email
-        in: query
-        name: name
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: Creat user
-      tags:
-      - user
   /workspaces/:id/users/:id/items:
     get:
       consumes:

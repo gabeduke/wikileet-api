@@ -29,9 +29,9 @@ import (
 //	@host		localhost:8080
 //	@BasePath	/api/v1
 
-// @securitydefinitions.oauth2.application					OAuth2Application
-// @tokenUrl												https://oauth2.googleapis.com/token
-// @scope.https://www.googleapis.com/auth/userinfo.email	See your primary Google Account email address
+//	@securitydefinitions.oauth2.application					OAuth2Application
+//	@tokenUrl												https://oauth2.googleapis.com/token
+//	@scope.https://www.googleapis.com/auth/userinfo.email	See your primary Google Account email address
 func main() {
 	logrus.Info("Starting Wikileet API")
 
@@ -67,36 +67,37 @@ func main() {
 		gin.LoggerWithWriter(gin.DefaultWriter, "/live", "/ready"),
 		gin.Recovery(),
 		CORSMiddleware(),
-		app.GetUserMiddleware(),
 	)
 
 	r.GET("/live", gin.WrapF(health.LiveEndpoint))
 	r.GET("/ready", gin.WrapF(health.ReadyEndpoint))
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.GET("/login", auth.LoginHandler)
+	r.GET("/refresh_token", auth.RefreshHandler)
 
-	// Register routes
 	v1 := r.Group("/api/v1")
-	v1.GET("/refresh_token", auth.RefreshHandler)
-	v1.Use(auth.MiddlewareFunc())
+	v1.Use(app.GetUserMiddleware(), auth.MiddlewareFunc())
+
+	// Register items routes
 	v1.GET("/items", app.GetItems)
+	v1.POST("/items", app.CreateItem)
 	v1.GET("/items/:item", app.GetItem)
 	v1.PATCH("/items/:item", app.UpdateItem)
 	v1.DELETE("/items/:item", app.DeleteItem)
 
 	// Register workspace routes
-	workspace := v1.Group("/workspaces")
-	workspace.GET("/", app.GetWorkspaces)
-	workspace.POST("/", app.CreateWorkspace)
-	workspace.GET("/:workspace", app.GetWorkspace)
+	workspaces := v1.Group("/workspaces")
+	workspaces.GET("/", app.GetWorkspaces)
+	workspaces.POST("/", app.CreateWorkspace)
+	workspaces.GET("/:workspace", app.GetWorkspace)
 
 	// Register user routes
-	workspaceUsers := v1.Group("/users")
-	workspaceUsers.GET("/", app.GetWorkspaceUsers)
-	workspaceUsers.POST("/", app.CreateWorkspaceUser)
-	workspaceUsers.GET("/:user", app.GetUser)
+	users := v1.Group("/users")
+	users.GET("/", app.GetWorkspaceUsers)
+	users.POST("/", app.CreateUser)
+	users.GET("/:user", app.GetUser)
 
-	userItems := workspaceUsers.Group("/:user/items")
+	userItems := users.Group("/:user/items")
 	userItems.GET("/", app.GetUserItems)
 	userItems.POST("/", app.CreateUserItem)
 	userItems.GET("/:item", app.GetItem)

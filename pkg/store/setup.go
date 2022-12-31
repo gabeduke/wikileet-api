@@ -10,6 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"net/http"
 	"strings"
 	"time"
 )
@@ -104,9 +105,9 @@ func (a *App) GetAuthMiddleware(sessionSecret, domain, zone string, authEnabled 
 			}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
-			email := c.GetString(contextKeyUserEmail)
+			email := c.GetHeader("x-user")
 			if email == "" {
-				return nil, errors.New("email not found in context")
+				return nil, errors.New("email not found in header")
 			}
 
 			if authEnabled {
@@ -133,7 +134,7 @@ func (a *App) GetAuthMiddleware(sessionSecret, domain, zone string, authEnabled 
 			u := &User{Email: email}
 			dberr := a.DB.Where("email = ?", email).First(&u).Error
 			if errors.Is(dberr, gorm.ErrRecordNotFound) {
-				a.DB.Create(&u)
+				return nil, jwt.ErrFailedAuthentication
 			}
 
 			return u, nil
@@ -191,6 +192,12 @@ func (a *App) GetUserMiddleware() gin.HandlerFunc {
 		}
 		c.Set(contextKeyWorkspace, wrk)
 
+		if email == "" {
+			logrus.Error("No user header found")
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+
 		// Get first matched user record
 		u := &User{Email: email}
 		err := a.DB.Where("email = ?", email).First(&u).Error
@@ -199,14 +206,13 @@ func (a *App) GetUserMiddleware() gin.HandlerFunc {
 		}
 		c.Set(contextKeyUserID, u.ID)
 
-		// Get first matched workspace record
-		w := &Workspace{Name: wrk}
-		a.DB.Where("name = ?", wrk).First(&w)
-		err = a.DB.First(&w).Error
+		workspace := &Workspace{Name: wrk}
+		err = a.DB.First(workspace).Error
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			a.DB.Create(&w)
+			a.DB.Create(workspace)
+			return
 		}
-		c.Set(contextKeyWorkspaceID, w.ID)
+		c.Set(contextKeyWorkspaceID, workspace.ID)
 
 		//
 		uuid := uuid.New()
