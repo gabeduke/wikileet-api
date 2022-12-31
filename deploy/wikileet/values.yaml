@@ -20,15 +20,16 @@ postgres:
 configmapValues:
   CFG_DATABASE_HOST: "wikileet.coetmusgho2c.us-east-1.rds.amazonaws.com"
   CFG_DATABASE_PORT: "5432"
-  CFG_DATABASE_NAME: "postgres"
+  CFG_DATABASE_NAME: "develop"
   CFG_DATABASE_USER: "postgres"
+  CFG_DOMAIN: "leetserve.com"
 
 replicaCount: 2
 
 api:
   image:
     repository: docker.io/dukeman/wikileet-api
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     tag: "latest"
 
 ui:
@@ -71,16 +72,16 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: traefik
-    "external-dns.alpha.kubernetes.io/hostname": "api.wikileet.leetserve.com"
+    "external-dns.alpha.kubernetes.io/hostname": "test.wikileet.leetserve.com"
     "ingress.kubernetes.io/ssl-redirect": "true"
     "cert-manager.io/cluster-issuer": "letsencrypt-prod"
     "traefik.ingress.kubernetes.io/router.middlewares": kube-system-traefik-forward-auth@kubernetescrd
-  host: dev.wikileet.leetserve.com
+  host: test.wikileet.leetserve.com
 
   tls:
     - secretName: wikileet-tls
       hosts:
-        - dev.wikileet.leetserve.com
+        - test.wikileet.leetserve.com
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -39,7 +39,7 @@ export default {
     },
     async getDefaultUser() {
       const myHeaders = new Headers();
-      const u = myHeaders.get('X-User');
+      const u = myHeaders.get('x-user');
       this.selectUser = u;
     }
   }

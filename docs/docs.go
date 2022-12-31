@@ -25,7 +25,39 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/item/:id": {
+        "/items": {
+            "get": {
+                "description": "List items by user email.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "item"
+                ],
+                "summary": "Get items",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "description": "search by email address",
+                        "name": "user_email",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/items/:id": {
             "get": {
                 "description": "Get item by id.",
                 "consumes": [
@@ -38,23 +70,6 @@ const docTemplate = `{
                     "item"
                 ],
                 "summary": "Get item",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "api_docs@leetserve.com",
-                        "description": "user email",
-                        "name": "X-User",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "default": "default",
-                        "description": "user workspace",
-                        "name": "X-Workspace",
-                        "in": "header"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -76,23 +91,6 @@ const docTemplate = `{
                     "item"
                 ],
                 "summary": "Delete item",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "api_docs@leetserve.com",
-                        "description": "user email",
-                        "name": "X-User",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "default": "default",
-                        "description": "user workspace",
-                        "name": "X-Workspace",
-                        "in": "header"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -114,21 +112,36 @@ const docTemplate = `{
                     "item"
                 ],
                 "summary": "Update item",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "List users",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get users",
                 "parameters": [
                     {
                         "type": "string",
-                        "default": "api_docs@leetserve.com",
-                        "description": "user email",
-                        "name": "X-User",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "default": "default",
-                        "description": "user workspace",
-                        "name": "X-Workspace",
-                        "in": "header"
+                        "format": "email",
+                        "description": "search by email address",
+                        "name": "user_email",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -141,7 +154,136 @@ const docTemplate = `{
                 }
             }
         },
-        "/items": {
+        "/users/:id": {
+            "get": {
+                "description": "Get user by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/workspaces": {
+            "get": {
+                "description": "Get all workspaces.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "workspace"
+                ],
+                "summary": "Get workspaces",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new workspace.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "workspace"
+                ],
+                "summary": "Creat workspace",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/workspaces/:id": {
+            "get": {
+                "description": "Get workspace by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "workspace"
+                ],
+                "summary": "Get workspace",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/workspaces/:id/users": {
+            "post": {
+                "description": "Create a new user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Creat user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "description": "associate item with user",
+                        "name": "user_email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "description": "Username",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/workspaces/:id/users/:id/items": {
             "get": {
                 "description": "List items by user email.",
                 "consumes": [
@@ -154,31 +296,6 @@ const docTemplate = `{
                     "item"
                 ],
                 "summary": "Get items",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "search by email address",
-                        "name": "user_email",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "default": "api_docs@leetserve.com",
-                        "description": "user email",
-                        "name": "X-User",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "default": "default",
-                        "description": "user workspace",
-                        "name": "X-Workspace",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -199,7 +316,7 @@ const docTemplate = `{
                 "tags": [
                     "item"
                 ],
-                "summary": "Creat item",
+                "summary": "Create item",
                 "parameters": [
                     {
                         "type": "string",
@@ -235,22 +352,6 @@ const docTemplate = `{
                         "description": "Item help URL",
                         "name": "url",
                         "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "default": "api_docs@leetserve.com",
-                        "description": "user email",
-                        "name": "X-User",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "default": "default",
-                        "description": "user workspace",
-                        "name": "X-Workspace",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -279,7 +380,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "http://localhost:8080",
+	Host:             "localhost:8080",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Wikileet API",

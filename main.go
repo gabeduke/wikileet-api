@@ -3,9 +3,9 @@ package main
 import (
 	docs "github.com/gabeduke/wikileet-api/docs"
 	"github.com/gabeduke/wikileet-api/pkg/config"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
-
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
@@ -23,9 +23,10 @@ import (
 //	@license.name	Apache 2.0
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-//	@host		https://wikileet.leetserve.com
-//	@host		https://dev.wikileet.leetserve.com
-//	@host		http://localhost:8080
+//	@host		wikileet.leetserve.com
+//	@host		dev.wikileet.leetserve.com
+//	@host		test.wikileet.leetserve.com
+//	@host		localhost:8080
 //	@BasePath	/api/v1
 
 // @securitydefinitions.oauth2.application					OAuth2Application
@@ -54,31 +55,55 @@ func main() {
 		log.Fatal(err)
 	}
 
+	auth, err := app.GetAuthMiddleware(config.GetSessionSecret(), config.GetDomain(), config.GetZone(), false)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Configure router
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	r := gin.New()
 	r.Use(
 		gin.LoggerWithWriter(gin.DefaultWriter, "/live", "/ready"),
 		gin.Recovery(),
-		app.GetUserMiddleware(),
 		CORSMiddleware(),
+		app.GetUserMiddleware(),
 	)
 
 	r.GET("/live", gin.WrapF(health.LiveEndpoint))
 	r.GET("/ready", gin.WrapF(health.ReadyEndpoint))
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	r.GET("/login", auth.LoginHandler)
 
 	// Register routes
 	v1 := r.Group("/api/v1")
-
-	// Register routes
+	v1.GET("/refresh_token", auth.RefreshHandler)
+	v1.Use(auth.MiddlewareFunc())
 	v1.GET("/items", app.GetItems)
-	v1.POST("/items", app.CreateItem)
-	v1.GET("/items/:id", app.GetItem)
-	v1.PATCH("/items/:id", app.UpdateItem)
-	v1.DELETE("/items/:id", app.DeleteItem)
+	v1.GET("/items/:item", app.GetItem)
+	v1.PATCH("/items/:item", app.UpdateItem)
+	v1.DELETE("/items/:item", app.DeleteItem)
 
-	v1.GET("/users", app.GetUsers)
+	// Register workspace routes
+	workspace := v1.Group("/workspaces")
+	workspace.GET("/", app.GetWorkspaces)
+	workspace.POST("/", app.CreateWorkspace)
+	workspace.GET("/:workspace", app.GetWorkspace)
+
+	// Register user routes
+	workspaceUsers := v1.Group("/users")
+	workspaceUsers.GET("/", app.GetWorkspaceUsers)
+	workspaceUsers.POST("/", app.CreateWorkspaceUser)
+	workspaceUsers.GET("/:user", app.GetUser)
+
+	userItems := workspaceUsers.Group("/:user/items")
+	userItems.GET("/", app.GetUserItems)
+	userItems.POST("/", app.CreateUserItem)
+	userItems.GET("/:item", app.GetItem)
+	userItems.PATCH("/:item", app.UpdateItem)
+	userItems.DELETE("/:item", app.DeleteItem)
+
+	r.Use(static.Serve("/", static.LocalFile("./frontend/wikileet-ui/dist", false)))
 
 	// Start and run the server
 	r.Run()

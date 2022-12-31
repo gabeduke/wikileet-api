@@ -1,5 +1,5 @@
 basePath: /api/v1
-host: http://localhost:8080
+host: localhost:8080
 info:
   contact:
     email: support@leetserve.com
@@ -13,23 +13,32 @@ info:
   title: Wikileet API
   version: "1.0"
 paths:
-  /item/:id:
+  /items:
+    get:
+      consumes:
+      - application/json
+      description: List items by user email.
+      parameters:
+      - description: search by email address
+        format: email
+        in: query
+        name: user_email
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Get items
+      tags:
+      - item
+  /items/:id:
     delete:
       consumes:
       - application/json
       description: Delete item by id.
-      parameters:
-      - default: api_docs@leetserve.com
-        description: user email
-        in: header
-        name: X-User
-        required: true
-        type: string
-      - default: default
-        description: user workspace
-        in: header
-        name: X-Workspace
-        type: string
       produces:
       - application/json
       responses:
@@ -44,18 +53,6 @@ paths:
       consumes:
       - application/json
       description: Get item by id.
-      parameters:
-      - default: api_docs@leetserve.com
-        description: user email
-        in: header
-        name: X-User
-        required: true
-        type: string
-      - default: default
-        description: user workspace
-        in: header
-        name: X-Workspace
-        type: string
       produces:
       - application/json
       responses:
@@ -70,18 +67,6 @@ paths:
       consumes:
       - application/json
       description: Get item by id.
-      parameters:
-      - default: api_docs@leetserve.com
-        description: user email
-        in: header
-        name: X-User
-        required: true
-        type: string
-      - default: default
-        description: user workspace
-        in: header
-        name: X-Workspace
-        type: string
       produces:
       - application/json
       responses:
@@ -92,29 +77,117 @@ paths:
       summary: Update item
       tags:
       - item
-  /items:
+  /users:
     get:
       consumes:
       - application/json
-      description: List items by user email.
+      description: List users
       parameters:
       - description: search by email address
         format: email
         in: query
         name: user_email
         type: string
-      - default: api_docs@leetserve.com
-        description: user email
-        in: header
-        name: X-User
-        required: true
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Get users
+      tags:
+      - user
+  /users/:id:
+    get:
+      consumes:
+      - application/json
+      description: Get user by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Get user
+      tags:
+      - user
+  /workspaces:
+    get:
+      consumes:
+      - application/json
+      description: Get all workspaces.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Get workspaces
+      tags:
+      - workspace
+    post:
+      consumes:
+      - application/json
+      description: Create a new workspace.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Creat workspace
+      tags:
+      - workspace
+  /workspaces/:id:
+    get:
+      consumes:
+      - application/json
+      description: Get workspace by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Get workspace
+      tags:
+      - workspace
+  /workspaces/:id/users:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user.
+      parameters:
+      - description: associate item with user
+        format: email
+        in: query
+        name: user_email
         type: string
-      - default: default
-        description: user workspace
-        in: header
-        name: X-Workspace
-        required: true
+      - description: Username
+        format: email
+        in: query
+        name: name
         type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Creat user
+      tags:
+      - user
+  /workspaces/:id/users/:id/items:
+    get:
+      consumes:
+      - application/json
+      description: List items by user email.
       produces:
       - application/json
       responses:
@@ -155,18 +228,6 @@ paths:
         in: query
         name: url
         type: string
-      - default: api_docs@leetserve.com
-        description: user email
-        in: header
-        name: X-User
-        required: true
-        type: string
-      - default: default
-        description: user workspace
-        in: header
-        name: X-Workspace
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -174,7 +235,7 @@ paths:
           description: OK
           schema:
             type: string
-      summary: Creat item
+      summary: Create item
       tags:
       - item
 securityDefinitions:
