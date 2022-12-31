@@ -23,7 +23,7 @@ export default {
     },
     methods:{
         submitForm(){
-            axios.post(API_URL,{params: {user_email:this.selectUser}}, this.form)
+            axios.post(API_URL+"/items",{params: {user_email:this.selectUser}}, this.form)
                  .then((res) => {
                      //Perform Success Action
                      console.log(res);
