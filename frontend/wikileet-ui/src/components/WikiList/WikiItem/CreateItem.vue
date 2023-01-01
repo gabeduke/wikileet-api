@@ -17,6 +17,9 @@ export default {
             }
         }
     },
+    mounted() {
+        this.fetchUsers()
+    },
     created() {
         // fetch on init
         this.fetchUsers()

@@ -24,12 +24,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: dukeman/wikileet-ui:latest,dukeman/wikileet-ui:${{ env.TAG }},dukeman/wikileet-ui:${{ github.sha }}
-          platforms: linux/amd64,linux/arm64
-          context: "{{defaultContext}}:frontend/wikileet-ui"
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: true
           tags: dukeman/wikileet-api:latest,dukeman/wikileet-api:${{ env.TAG }},dukeman/wikileet-api:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
