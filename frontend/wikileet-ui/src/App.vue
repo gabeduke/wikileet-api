@@ -16,6 +16,7 @@ import Welcome from './components/Welcome.vue'
         <RouterLink to="/list">List</RouterLink>
         <RouterLink to="/create">Create</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/login">Login</RouterLink>
       </nav>
     </div>
   </header>

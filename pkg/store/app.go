@@ -1,22 +1,15 @@
 package store
 
 import (
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
-	"github.com/heptiolabs/healthcheck"
 	"gorm.io/gorm"
 	"net/http"
 	"strconv"
 )
 
-var _ AppI = (*App)(nil)
-
 type App struct {
 	DB *gorm.DB
-}
-
-type AppI interface {
-	GetHealthHandler() (healthcheck.Handler, error)
-	GetUserMiddleware() gin.HandlerFunc
 }
 
 //	@BasePath	/api/v1
@@ -54,7 +47,9 @@ func (a *App) GetUsers(c *gin.Context) {
 func (a *App) GetItems(c *gin.Context) {
 	user := &User{}
 
-	userEmail := c.DefaultQuery("user_email", c.GetString(contextKeyUserEmail))
+	claims := jwt.ExtractClaims(c)
+
+	userEmail := c.DefaultQuery("user_email", claims[identityKey].(string))
 	a.DB.Preload("Items").Where("email = ?", userEmail).First(&user)
 
 	c.JSON(http.StatusOK, gin.H{"data": user.Items})
@@ -94,30 +89,14 @@ func (a *App) GetUserItems(c *gin.Context) {
 //	@Param			description	query		string	false	"Item description"				Format(email)
 //	@Param			url			query		string	false	"Item help URL"					Format(email)
 //	@Success		200			{string}	model.Item
-//	@Router			/workspaces/:id/users/:id/items [post]
+//	@Router			/items [post]
 func (a *App) CreateItem(c *gin.Context) {
-	workspaceId, found := c.Get(contextKeyWorkspaceID)
-	if !found {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing workspace ID"})
-		return
-	}
-
-	if _, ok := workspaceId.(uint); !ok {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid workspace ID"})
-		return
-	}
 
 	userEmail, found := c.GetQuery("user_email")
 	if !found {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing user"})
 		return
 	}
-
-	//w64, err := strconv.ParseUint(workspace, 10, 64)
-	//if err != nil {
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid workspace id"})
-	//	return
-	//}
 
 	user := &User{}
 	if err := a.DB.Where("email = ?", userEmail).First(&user).Error; err != nil {
@@ -138,7 +117,6 @@ func (a *App) CreateItem(c *gin.Context) {
 		Description: input.Description,
 		URL:         input.URL,
 		UserID:      user.ID,
-		WorkspaceID: workspaceId.(uint),
 	}
 
 	a.DB.Create(&item)

@@ -55,7 +55,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	auth, err := app.GetAuthMiddleware(config.GetSessionSecret(), config.GetDomain(), config.GetZone(), false)
+	auth, err := app.GetAuthMiddleware(config.GetSessionSecret(), config.GetDomain(), config.GetZone(), config.GetAuthInternal())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -73,10 +73,11 @@ func main() {
 	r.GET("/ready", gin.WrapF(health.ReadyEndpoint))
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.GET("/login", auth.LoginHandler)
+	r.POST("/login", auth.LoginHandler)
 	r.GET("/refresh_token", auth.RefreshHandler)
 
 	v1 := r.Group("/api/v1")
-	v1.Use(app.GetUserMiddleware(), auth.MiddlewareFunc())
+	v1.Use(auth.MiddlewareFunc())
 
 	// Register items routes
 	v1.GET("/items", app.GetItems)

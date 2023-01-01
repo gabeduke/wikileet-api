@@ -1,16 +1,19 @@
 package store
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/heptiolabs/healthcheck"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -79,7 +82,7 @@ func (a *App) GetHealthHandler() (healthcheck.Handler, error) {
 	return health, nil
 }
 
-func (a *App) GetAuthMiddleware(sessionSecret, domain, zone string, authEnabled bool) (*jwt.GinJWTMiddleware, error) {
+func (a *App) GetAuthMiddleware(sessionSecret, domain, zone string, authInternal bool) (*jwt.GinJWTMiddleware, error) {
 	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
 		Realm:        zone,
 		Key:          []byte(sessionSecret),
@@ -105,42 +108,51 @@ func (a *App) GetAuthMiddleware(sessionSecret, domain, zone string, authEnabled 
 			}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
-			email := c.GetHeader("x-user")
-			if email == "" {
-				return nil, errors.New("email not found in header")
-			}
-
-			if authEnabled {
-				logrus.Info("Auth enabled")
+			user := &User{}
+			if authInternal {
+				logrus.Info("Auth internal")
 				var loginVals login
-				if email == "" {
-					if err := c.ShouldBind(&loginVals); err != nil {
-						return "", jwt.ErrMissingLoginValues
-					}
-					userID := loginVals.Username
-					password := loginVals.Password
+				if err := c.ShouldBind(&loginVals); err != nil {
+					return "", jwt.ErrMissingLoginValues
+				}
+				userID := loginVals.Username
+				password := loginVals.Password
 
-					if (userID == "admin" && password == "admin") || (userID == "test" && password == "test") {
-						return &User{
-							Email: "admin@leetserve.com",
-						}, nil
+				if (userID == "admin" && password == "admin") || (userID == "test" && password == "test") {
+					user.Email = fmt.Sprintf("%s@leetserve.com", userID)
+				}
+			} else {
+				logrus.Info("Auth external")
+
+				cookie, err := c.Request.Cookie("_forward_auth")
+				if err != nil {
+					return nil, err
+				}
+
+				user.Email, err = ValidateCookie(c.Request, cookie, domain, sessionSecret)
+				if err != nil {
+					if err.Error() == "Cookie has expired" {
+						logrus.Info("Cookie has expired")
+						return nil, jwt.ErrExpiredToken
+					} else {
+						logrus.WithField("error", err).Warn("Invalid cookie")
+						return nil, jwt.ErrFailedAuthentication
 					}
-					return nil, jwt.ErrFailedAuthentication
 				}
 			}
-			logrus.Info("Auth disabled")
 
 			// Get first matched user record
-			u := &User{Email: email}
-			dberr := a.DB.Where("email = ?", email).First(&u).Error
-			if errors.Is(dberr, gorm.ErrRecordNotFound) {
-				return nil, jwt.ErrFailedAuthentication
+			err := a.DB.Where("email = ?", user.Email).Find(&user).Error
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				a.DB.Create(&user)
 			}
 
-			return u, nil
+			return user, nil
 		},
 		Authorizator: func(data interface{}, c *gin.Context) bool {
-			if v, ok := data.(*User); ok && v.Email == c.GetString(contextKeyUserEmail) {
+			// TODO: Implement authorizator
+			claims := jwt.ExtractClaims(c)
+			if v, ok := data.(*User); ok && v.Email == claims[identityKey].(string) {
 				return true
 			}
 
@@ -152,23 +164,9 @@ func (a *App) GetAuthMiddleware(sessionSecret, domain, zone string, authEnabled 
 				"message": message,
 			})
 		},
-		// TokenLookup is a string in the form of "<source>:<name>" that is used
-		// to extract token from the request.
-		// Optional. Default value "header:Authorization".
-		// Possible values:
-		// - "header:<name>"
-		// - "query:<name>"
-		// - "cookie:<name>"
-		// - "param:<name>"
-		TokenLookup: "header: Authorization, query: token, cookie: wikileet",
-		// TokenLookup: "query:token",
-		// TokenLookup: "cookie:token",
-
-		// TokenHeadName is a string in the header. Default value is "Bearer"
+		TokenLookup:   "header: Authorization, query: token, cookie: wikileet",
 		TokenHeadName: "Bearer",
-
-		// TimeFunc provides the current time. You can override it to use another time value. This is useful for testing or if your server uses a different time zone than your tokens.
-		TimeFunc: time.Now,
+		TimeFunc:      time.Now,
 	})
 
 	if err != nil {
@@ -179,46 +177,72 @@ func (a *App) GetAuthMiddleware(sessionSecret, domain, zone string, authEnabled 
 
 }
 
-func (a *App) GetUserMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// Get the email addr from the header
-		email := c.GetHeader(headerUser)
-		c.Set(contextKeyUserEmail, email)
+// ValidateCookie verifies that a cookie matches the expected format of:
+// Cookie = hash(secret, cookie domain, email, expires)|expires|email
+func ValidateCookie(r *http.Request, c *http.Cookie, domain, sessionSecret string) (string, error) {
+	parts := strings.Split(c.Value, "|")
 
-		// Get the workspace from the header
-		wrk := c.GetHeader(headerWorkspace)
-		if wrk == "" {
-			wrk = "default"
-		}
-		c.Set(contextKeyWorkspace, wrk)
-
-		if email == "" {
-			logrus.Error("No user header found")
-			c.AbortWithStatus(http.StatusUnauthorized)
-			return
-		}
-
-		// Get first matched user record
-		u := &User{Email: email}
-		err := a.DB.Where("email = ?", email).First(&u).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			a.DB.Create(&u)
-		}
-		c.Set(contextKeyUserID, u.ID)
-
-		workspace := &Workspace{Name: wrk}
-		err = a.DB.First(workspace).Error
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			a.DB.Create(workspace)
-			return
-		}
-		c.Set(contextKeyWorkspaceID, workspace.ID)
-
-		//
-		uuid := uuid.New()
-		c.Set("uuid", uuid)
-		logrus.Tracef("The request with uuid %s is started", uuid)
-		c.Next()
-		logrus.Tracef("The request with uuid %s is served", uuid)
+	if len(parts) != 3 {
+		return "", errors.New("invalid cookie format")
 	}
+
+	mac, err := base64.URLEncoding.DecodeString(parts[0])
+	if err != nil {
+		return "", errors.New("unable to decode cookie mac")
+	}
+
+	expectedSignature := cookieSignature(r, parts[2], parts[1], domain, sessionSecret)
+	expected, err := base64.URLEncoding.DecodeString(expectedSignature)
+	if err != nil {
+		return "", errors.New("unable to generate mac")
+	}
+
+	// Valid token?
+	if !hmac.Equal(mac, expected) {
+		return "", errors.New("invalid cookie mac")
+	}
+
+	expires, err := strconv.ParseInt(parts[1], 10, 64)
+	if err != nil {
+		return "", errors.New("unable to parse cookie expiry")
+	}
+
+	// Has it expired?
+	if time.Unix(expires, 0).Before(time.Now()) {
+		return "", errors.New("cookie has expired")
+	}
+
+	// Looks valid
+	return parts[2], nil
+}
+
+// Create cookie hmac
+func cookieSignature(r *http.Request, email, expires, domain, sessionSecret string) string {
+	hash := hmac.New(sha256.New, []byte(sessionSecret))
+	hash.Write([]byte(cookieDomain(r, r.Host, domain)))
+	hash.Write([]byte(email))
+	hash.Write([]byte(expires))
+	return base64.URLEncoding.EncodeToString(hash.Sum(nil))
+}
+
+// Cookie domain
+func cookieDomain(r *http.Request, cookieDomain, serverDomain string) string {
+	// Check if any of the given cookie domains matches
+	_, domain := matchCookieDomains(cookieDomain, serverDomain)
+	return domain
+}
+
+// Return matching cookie domain if exists
+func matchCookieDomains(have, want string) (bool, string) {
+	// Remove port
+	p := strings.Split(have, ":")
+
+	if len(p) > 0 {
+		have = p[0]
+		if have == want {
+			return true, have
+		}
+	}
+
+	return false, p[0]
 }

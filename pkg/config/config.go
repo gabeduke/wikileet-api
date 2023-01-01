@@ -16,7 +16,7 @@ func New() (*AppConfig, error) {
 type AppConfig struct {
 	Debug            bool
 	Port             int
-	AuthEnabled      bool   `default:"false"`
+	AuthInternal     bool   `split_words:"true" default:"false"`
 	SessionSecret    string `split_words:"true" default:"secret"`
 	Domain           string `default:"localhost"`
 	Zone             string `default:"test"`
@@ -36,8 +36,8 @@ func (a *AppConfig) GetSessionSecret() string {
 	return a.SessionSecret
 }
 
-func (a *AppConfig) GetAuthEnabled() bool {
-	return a.AuthEnabled
+func (a *AppConfig) GetAuthInternal() bool {
+	return a.AuthInternal
 }
 
 func (a *AppConfig) GetDomain() string {

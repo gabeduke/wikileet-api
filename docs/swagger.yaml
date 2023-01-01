@@ -34,6 +34,46 @@ paths:
       summary: Get items
       tags:
       - item
+    post:
+      consumes:
+      - application/json
+      description: Create a new item.
+      parameters:
+      - description: associate item with user
+        format: email
+        in: query
+        name: user_email
+        type: string
+      - description: associate item with workspace
+        format: email
+        in: query
+        name: workspace
+        type: string
+      - description: Item name
+        format: email
+        in: query
+        name: name
+        type: string
+      - description: Item description
+        format: email
+        in: query
+        name: description
+        type: string
+      - description: Item help URL
+        format: email
+        in: query
+        name: url
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Create item
+      tags:
+      - item
   /items/:id:
     delete:
       consumes:
