@@ -1,85 +1,35 @@
 {
 	"info": {
-		"_postman_id": "cebadc52-91de-47ea-a849-a63d4738a5e5",
+		"_postman_id": "e5f07dea-98d8-455e-b156-94e0e0d46e77",
 		"name": "Wikileet API",
 		"description": "Wikileet gift lists API\n\nContact Support:\n Name: Wikileet Support\n Email: support@leetserve.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "1351504-cebadc52-91de-47ea-a849-a63d4738a5e5"
+		"_exporter_id": "1351504"
 	},
 	"item": [
 		{
-			"name": "item/:id",
+			"name": "items",
 			"item": [
 				{
-					"name": "Get item",
-					"id": "fb1ce171-79bb-4471-97e7-a46fd854a1ff",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"description": "(Required) user email",
-								"key": "X-User",
-								"value": "api_docs@leetserve.com"
-							},
-							{
-								"description": "user workspace",
-								"key": "X-Workspace",
-								"value": "default"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/item/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"item",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id"
-								}
-							]
-						},
-						"description": "Get item by id."
-					},
-					"response": [
+					"name": "{id}",
+					"item": [
 						{
-							"id": "ef7389d8-f2de-4ba6-b7cd-9dd44268ca25",
-							"name": "OK",
-							"originalRequest": {
+							"name": "Get item",
+							"request": {
 								"method": "GET",
 								"header": [
-									{
-										"description": "(Required) user email",
-										"key": "X-User",
-										"value": "api_docs@leetserve.com"
-									},
-									{
-										"description": "user workspace",
-										"key": "X-Workspace",
-										"value": "default"
-									},
 									{
 										"key": "Accept",
 										"value": "application/json"
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/item/:id",
+									"raw": "{{baseUrl}}/items/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"item",
+										"items",
 										":id"
 									],
 									"variable": [
@@ -90,186 +40,207 @@
 								},
 								"description": "Get item by id."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
-							"header": [
+							"response": [
 								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"aliquip ullamco Excepteur qui\""
-						}
-					]
-				},
-				{
-					"name": "Delete item",
-					"id": "d84c37d4-3fa3-4d98-8115-b0efec82b0e3",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"description": "(Required) user email",
-								"key": "X-User",
-								"value": "api_docs@leetserve.com"
-							},
-							{
-								"description": "user workspace",
-								"key": "X-Workspace",
-								"value": "default"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/item/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"item",
-								":id"
-							],
-							"variable": [
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
+								},
 								{
-									"key": "id"
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
 								}
 							]
 						},
-						"description": "Delete item by id."
-					},
-					"response": [
 						{
-							"id": "4cbbfe03-497e-4698-93d1-baaf7418fd73",
-							"name": "OK",
-							"originalRequest": {
+							"name": "Delete item",
+							"request": {
 								"method": "DELETE",
 								"header": [
-									{
-										"description": "(Required) user email",
-										"key": "X-User",
-										"value": "api_docs@leetserve.com"
-									},
-									{
-										"description": "user workspace",
-										"key": "X-Workspace",
-										"value": "default"
-									},
 									{
 										"key": "Accept",
 										"value": "application/json"
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/item/:id",
+									"raw": "{{baseUrl}}/items/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"item",
+										"items",
 										":id"
 									],
 									"variable": [
 										{
-											"key": "id"
+											"key": "id",
+											"value": "officia Duis nulla occaeca",
+											"description": "(Required) Item ID"
 										}
 									]
 								},
 								"description": "Delete item by id."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
-							"header": [
+							"response": [
 								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"aliquip ullamco Excepteur qui\""
-						}
-					]
-				},
-				{
-					"name": "Update item",
-					"id": "e17b5993-d082-4434-9a3d-07635d1cb679",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"description": "(Required) user email",
-								"key": "X-User",
-								"value": "api_docs@leetserve.com"
-							},
-							{
-								"description": "user workspace",
-								"key": "X-Workspace",
-								"value": "default"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/item/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"item",
-								":id"
-							],
-							"variable": [
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "officia Duis nulla occaeca",
+													"description": "(Required) Item ID"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
+								},
 								{
-									"key": "id"
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "officia Duis nulla occaeca",
+													"description": "(Required) Item ID"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
 								}
 							]
 						},
-						"description": "Get item by id."
-					},
-					"response": [
 						{
-							"id": "94e68c30-2970-4140-8c12-5e24d1d1b5dc",
-							"name": "OK",
-							"originalRequest": {
+							"name": "Update item",
+							"request": {
 								"method": "PATCH",
 								"header": [
 									{
-										"description": "(Required) user email",
-										"key": "X-User",
-										"value": "api_docs@leetserve.com"
-									},
-									{
-										"description": "user workspace",
-										"key": "X-Workspace",
-										"value": "default"
+										"key": "Content-Type",
+										"value": "application/json"
 									},
 									{
 										"key": "Accept",
 										"value": "application/json"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"description\": \"qui Duis\",\n  \"name\": \"quis velit eiusmod ut\",\n  \"url\": \"Excepteur ut dolore fugiat\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{baseUrl}}/item/:id",
+									"raw": "{{baseUrl}}/items/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"item",
+										"items",
 										":id"
 									],
 									"variable": [
@@ -280,53 +251,107 @@
 								},
 								"description": "Get item by id."
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
-							"header": [
+							"response": [
 								{
-									"key": "Content-Type",
-									"value": "application/json"
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"description\": \"qui Duis\",\n  \"name\": \"quis velit eiusmod ut\",\n  \"url\": \"Excepteur ut dolore fugiat\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"description\": \"qui Duis\",\n  \"name\": \"quis velit eiusmod ut\",\n  \"url\": \"Excepteur ut dolore fugiat\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/items/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"items",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
 								}
-							],
-							"cookie": [],
-							"body": "\"aliquip ullamco Excepteur qui\""
+							]
 						}
 					]
-				}
-			],
-			"id": "7a236d4b-08ec-4acf-ab4d-979967c77d6c"
-		},
-		{
-			"name": "items",
-			"item": [
+				},
 				{
 					"name": "Get items",
-					"id": "9db5ae55-8b11-45ea-b84b-76508e81082c",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
-							{
-								"description": "(Required) user email",
-								"key": "X-User",
-								"value": "api_docs@leetserve.com"
-							},
-							{
-								"description": "(Required) user workspace",
-								"key": "X-Workspace",
-								"value": "default"
-							},
 							{
 								"key": "Accept",
 								"value": "application/json"
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/items?user_email=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+							"raw": "{{baseUrl}}/items?user_email=76uO@l.hx",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -336,7 +361,7 @@
 							"query": [
 								{
 									"key": "user_email",
-									"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+									"value": "76uO@l.hx",
 									"description": "search by email address"
 								}
 							]
@@ -345,28 +370,12 @@
 					},
 					"response": [
 						{
-							"id": "18d51b1d-7aa5-49ac-94f8-eeb18b80c7ff",
 							"name": "OK",
 							"originalRequest": {
 								"method": "GET",
-								"header": [
-									{
-										"description": "(Required) user email",
-										"key": "X-User",
-										"value": "api_docs@leetserve.com"
-									},
-									{
-										"description": "(Required) user workspace",
-										"key": "X-Workspace",
-										"value": "default"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
+								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/items?user_email=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+									"raw": "{{baseUrl}}/items?user_email=76uO@l.hx",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -376,17 +385,14 @@
 									"query": [
 										{
 											"key": "user_email",
-											"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
-											"description": "search by email address"
+											"value": "76uO@l.hx"
 										}
 									]
-								},
-								"description": "List items by user email."
+								}
 							},
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -394,36 +400,68 @@
 								}
 							],
 							"cookie": [],
-							"body": "\"aliquip ullamco Excepteur qui\""
+							"body": "\"officia Duis nulla occaeca\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/items?user_email=76uO@l.hx",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"items"
+									],
+									"query": [
+										{
+											"key": "user_email",
+											"value": "76uO@l.hx"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
 						}
 					]
 				},
 				{
-					"name": "Creat item",
-					"id": "88c05c5a-d902-4049-8501-63f8ddc4bf3b",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "Create item",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
-								"description": "(Required) user email",
-								"key": "X-User",
-								"value": "api_docs@leetserve.com"
-							},
-							{
-								"description": "(Required) user workspace",
-								"key": "X-Workspace",
-								"value": "default"
+								"key": "Content-Type",
+								"value": "application/json"
 							},
 							{
 								"key": "Accept",
 								"value": "application/json"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"irure esse aliqua\",\n  \"user_email\": \"exercitation eiusmod\",\n  \"description\": \"Ut fugiat nulla \",\n  \"url\": \"ipsum enim laborum\",\n  \"workspace\": \"cupidatat sint\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseUrl}}/items?user_email=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga&workspace=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+							"raw": "{{baseUrl}}/items?user_email=76uO@l.hx",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -433,13 +471,8 @@
 							"query": [
 								{
 									"key": "user_email",
-									"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+									"value": "76uO@l.hx",
 									"description": "associate item with user"
-								},
-								{
-									"key": "workspace",
-									"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
-									"description": "associate item with workspace"
 								}
 							]
 						},
@@ -447,28 +480,21 @@
 					},
 					"response": [
 						{
-							"id": "82c511d1-344e-4b7f-87c4-60e5740ca65f",
 							"name": "OK",
 							"originalRequest": {
 								"method": "POST",
-								"header": [
-									{
-										"description": "(Required) user email",
-										"key": "X-User",
-										"value": "api_docs@leetserve.com"
-									},
-									{
-										"description": "(Required) user workspace",
-										"key": "X-Workspace",
-										"value": "default"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json"
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"irure esse aliqua\",\n  \"user_email\": \"exercitation eiusmod\",\n  \"description\": \"Ut fugiat nulla \",\n  \"url\": \"ipsum enim laborum\",\n  \"workspace\": \"cupidatat sint\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
 									}
-								],
+								},
 								"url": {
-									"raw": "{{baseUrl}}/items?user_email=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga&workspace=Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
+									"raw": "{{baseUrl}}/items?user_email=76uO@l.hx",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -478,22 +504,14 @@
 									"query": [
 										{
 											"key": "user_email",
-											"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
-											"description": "associate item with user"
-										},
-										{
-											"key": "workspace",
-											"value": "Hc5dB5M@ptxPTEJsQcBQDCQqky.rqga",
-											"description": "associate item with workspace"
+											"value": "76uO@l.hx"
 										}
 									]
-								},
-								"description": "Create a new item."
+								}
 							},
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -501,19 +519,1027 @@
 								}
 							],
 							"cookie": [],
-							"body": "\"aliquip ullamco Excepteur qui\""
+							"body": "\"officia Duis nulla occaeca\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"irure esse aliqua\",\n  \"user_email\": \"exercitation eiusmod\",\n  \"description\": \"Ut fugiat nulla \",\n  \"url\": \"ipsum enim laborum\",\n  \"workspace\": \"cupidatat sint\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/items?user_email=76uO@l.hx",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"items"
+									],
+									"query": [
+										{
+											"key": "user_email",
+											"value": "76uO@l.hx"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
 						}
 					]
 				}
-			],
-			"id": "767aec5f-cf84-49a8-87df-c2917fdf7359"
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "items",
+							"item": [
+								{
+									"name": "Get items",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id/items",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id",
+												"items"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "officia Duis nulla occaeca",
+													"description": "(Required) User ID"
+												}
+											]
+										},
+										"description": "List items by user email."
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/users/:id/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"users",
+														":id",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "officia Duis nulla occaeca",
+															"description": "(Required) User ID"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "\"officia Duis nulla occaeca\""
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/users/:id/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"users",
+														":id",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "officia Duis nulla occaeca",
+															"description": "(Required) User ID"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "\"officia Duis nulla occaeca\""
+										}
+									]
+								},
+								{
+									"name": "Create item",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"irure esse aliqua\",\n  \"user_email\": \"exercitation eiusmod\",\n  \"description\": \"Ut fugiat nulla \",\n  \"url\": \"ipsum enim laborum\",\n  \"workspace\": \"cupidatat sint\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/:id/items",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id",
+												"items"
+											],
+											"variable": [
+												{
+													"key": "user_id",
+													"value": "urn:uuid:8f6f01e5-bc4e-692d-c9f4-b4a7e3cf0166",
+													"description": "(Required) User ID"
+												}
+											]
+										},
+										"description": "Create a new item."
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"irure esse aliqua\",\n  \"user_email\": \"exercitation eiusmod\",\n  \"description\": \"Ut fugiat nulla \",\n  \"url\": \"ipsum enim laborum\",\n  \"workspace\": \"cupidatat sint\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/users/:id/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"users",
+														":id",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "user_id",
+															"value": "urn:uuid:8f6f01e5-bc4e-692d-c9f4-b4a7e3cf0166",
+															"description": "(Required) User ID"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "\"officia Duis nulla occaeca\""
+										},
+										{
+											"name": "Bad Request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"irure esse aliqua\",\n  \"user_email\": \"exercitation eiusmod\",\n  \"description\": \"Ut fugiat nulla \",\n  \"url\": \"ipsum enim laborum\",\n  \"workspace\": \"cupidatat sint\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/users/:id/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"users",
+														":id",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "user_id",
+															"value": "urn:uuid:8f6f01e5-bc4e-692d-c9f4-b4a7e3cf0166",
+															"description": "(Required) User ID"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "\"officia Duis nulla occaeca\""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Get user",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "officia Duis nulla occaeca",
+											"description": "(Required) User ID"
+										}
+									]
+								},
+								"description": "Get user by id."
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "officia Duis nulla occaeca",
+													"description": "(Required) User ID"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "officia Duis nulla occaeca",
+													"description": "(Required) User ID"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users?user_email=76uO@l.hx",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "user_email",
+									"value": "76uO@l.hx",
+									"description": "search by email address"
+								}
+							]
+						},
+						"description": "List users"
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users?user_email=76uO@l.hx",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "user_email",
+											"value": "76uO@l.hx"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users?user_email=76uO@l.hx",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "user_email",
+											"value": "76uO@l.hx"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
+						}
+					]
+				},
+				{
+					"name": "Creat user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"ea et amet\",\n  \"name\": \"enim quis occaecat\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Create a new user."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"ea et amet\",\n  \"name\": \"enim quis occaecat\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"ea et amet\",\n  \"name\": \"enim quis occaecat\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "workspaces",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Get workspace",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/workspaces/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"workspaces",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "officia Duis nulla occaeca",
+											"description": "(Required) Workspace ID"
+										}
+									]
+								},
+								"description": "Get workspace by id."
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/workspaces/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"workspaces",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "officia Duis nulla occaeca",
+													"description": "(Required) Workspace ID"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/workspaces/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"workspaces",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "officia Duis nulla occaeca",
+													"description": "(Required) Workspace ID"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
+								}
+							]
+						},
+						{
+							"name": "Get all users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/workspaces/:id/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"workspaces",
+										":id",
+										"users"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "officia Duis nulla occaeca",
+											"description": "(Required) Workspace ID"
+										}
+									]
+								},
+								"description": "Get all users."
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/workspaces/:id/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"workspaces",
+												":id",
+												"users"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "officia Duis nulla occaeca",
+													"description": "(Required) Workspace ID"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/workspaces/:id/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"workspaces",
+												":id",
+												"users"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "officia Duis nulla occaeca",
+													"description": "(Required) Workspace ID"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"officia Duis nulla occaeca\""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get workspaces",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/workspaces",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"workspaces"
+							]
+						},
+						"description": "Get all workspaces."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/workspaces",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"workspaces"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/workspaces",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"workspaces"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
+						}
+					]
+				},
+				{
+					"name": "Creat workspace",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"enim velit in do\",\n  \"description\": \"sint\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/workspaces",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"workspaces"
+							]
+						},
+						"description": "Create a new workspace."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"enim velit in do\",\n  \"description\": \"sint\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/workspaces",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"workspaces"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"enim velit in do\",\n  \"description\": \"sint\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/workspaces",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"workspaces"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"officia Duis nulla occaeca\""
+						}
+					]
+				}
+			]
 		}
 	],
 	"variable": [
 		{
-			"id": "cc164460-f5ba-4f0f-b63d-c0a5ba0c8d7b",
 			"key": "baseUrl",
-			"value": "//http://localhost:8080/api/v1",
+			"value": "//localhost:8080/api/v1",
 			"type": "string"
 		}
 	]
