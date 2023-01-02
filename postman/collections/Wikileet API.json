@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "e5f07dea-98d8-455e-b156-94e0e0d46e77",
+		"_postman_id": "06526bc8-2ca2-423f-a2b2-1b67457f5a70",
 		"name": "Wikileet API",
 		"description": "Wikileet gift lists API\n\nContact Support:\n Name: Wikileet Support\n Email: support@leetserve.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "1351504"
+		"_uid": "1351504-06526bc8-2ca2-423f-a2b2-1b67457f5a70"
 	},
 	"item": [
 		{
@@ -15,6 +15,10 @@
 					"item": [
 						{
 							"name": "Get item",
+							"id": "8a7f634c-bdf0-4d4f-87b5-937e1c06f474",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [
@@ -42,6 +46,7 @@
 							},
 							"response": [
 								{
+									"id": "b3cd179d-3c8c-485a-81fe-64148bbbdcb0",
 									"name": "OK",
 									"originalRequest": {
 										"method": "GET",
@@ -75,6 +80,7 @@
 									"body": "\"officia Duis nulla occaeca\""
 								},
 								{
+									"id": "4e8ff066-b709-4913-85d1-20f3ba56d898",
 									"name": "Bad Request",
 									"originalRequest": {
 										"method": "GET",
@@ -111,6 +117,10 @@
 						},
 						{
 							"name": "Delete item",
+							"id": "cb291bd1-57b4-419d-b08e-98ab85da9cb1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -140,6 +150,7 @@
 							},
 							"response": [
 								{
+									"id": "6e5370d9-8d6c-4dfd-b6ad-b23473afb5d3",
 									"name": "OK",
 									"originalRequest": {
 										"method": "DELETE",
@@ -175,6 +186,7 @@
 									"body": "\"officia Duis nulla occaeca\""
 								},
 								{
+									"id": "e592fb0e-e94d-4e9a-8578-9f18e65be282",
 									"name": "Bad Request",
 									"originalRequest": {
 										"method": "DELETE",
@@ -213,6 +225,10 @@
 						},
 						{
 							"name": "Update item",
+							"id": "f694dd7d-2ad0-48ad-be0f-4be539ef28c6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "PATCH",
 								"header": [
@@ -253,6 +269,7 @@
 							},
 							"response": [
 								{
+									"id": "a108289f-314e-4fef-b9ec-cd33a8e4fb64",
 									"name": "OK",
 									"originalRequest": {
 										"method": "PATCH",
@@ -295,6 +312,7 @@
 									"body": "\"officia Duis nulla occaeca\""
 								},
 								{
+									"id": "06af413f-edc6-498f-9f7c-4f28b624a74f",
 									"name": "Bad Request",
 									"originalRequest": {
 										"method": "PATCH",
@@ -338,10 +356,15 @@
 								}
 							]
 						}
-					]
+					],
+					"id": "3d4e1dbc-c859-452c-80db-aa1c3359a5b0"
 				},
 				{
 					"name": "Get items",
+					"id": "23b27b0f-41de-4a31-ba09-de382840047c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -351,7 +374,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/items?user_email=76uO@l.hx",
+							"raw": "{{baseUrl}}/items?user_email=admin@leetserve.com",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -361,7 +384,7 @@
 							"query": [
 								{
 									"key": "user_email",
-									"value": "76uO@l.hx",
+									"value": "admin@leetserve.com",
 									"description": "search by email address"
 								}
 							]
@@ -370,6 +393,7 @@
 					},
 					"response": [
 						{
+							"id": "23762269-5f15-4823-a68b-a2194f76f017",
 							"name": "OK",
 							"originalRequest": {
 								"method": "GET",
@@ -403,6 +427,7 @@
 							"body": "\"officia Duis nulla occaeca\""
 						},
 						{
+							"id": "612fedb2-6f43-4892-b6ee-b7ae933dcad1",
 							"name": "Bad Request",
 							"originalRequest": {
 								"method": "GET",
@@ -439,6 +464,10 @@
 				},
 				{
 					"name": "Create item",
+					"id": "f080e5a5-1688-4e46-a75e-941800a46bd2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -480,6 +509,7 @@
 					},
 					"response": [
 						{
+							"id": "cb97b762-b3da-477d-b794-ecb041ce46a9",
 							"name": "OK",
 							"originalRequest": {
 								"method": "POST",
@@ -522,6 +552,7 @@
 							"body": "\"officia Duis nulla occaeca\""
 						},
 						{
+							"id": "758c1ce0-4233-4140-adc4-3a98c7349057",
 							"name": "Bad Request",
 							"originalRequest": {
 								"method": "POST",
@@ -565,7 +596,8 @@
 						}
 					]
 				}
-			]
+			],
+			"id": "6ed4fc7c-06f1-47b2-a4a2-916399d235c9"
 		},
 		{
 			"name": "users",
@@ -578,6 +610,10 @@
 							"item": [
 								{
 									"name": "Get items",
+									"id": "cc680f68-74ae-434e-8d30-d5321d9c131c",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
 									"request": {
 										"method": "GET",
 										"header": [
@@ -608,6 +644,7 @@
 									},
 									"response": [
 										{
+											"id": "10cbeabf-54bd-4965-8e18-556d08b0c5c3",
 											"name": "OK",
 											"originalRequest": {
 												"method": "GET",
@@ -644,6 +681,7 @@
 											"body": "\"officia Duis nulla occaeca\""
 										},
 										{
+											"id": "71e75050-d431-436c-a6a5-3d7de3529526",
 											"name": "Bad Request",
 											"originalRequest": {
 												"method": "GET",
@@ -683,6 +721,10 @@
 								},
 								{
 									"name": "Create item",
+									"id": "27cb120b-436f-4988-97b0-b87fab1aa802",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
 									"request": {
 										"method": "POST",
 										"header": [
@@ -726,6 +768,7 @@
 									},
 									"response": [
 										{
+											"id": "6a6b4f0a-9998-4ae1-a4e5-a7d8e8048d4c",
 											"name": "OK",
 											"originalRequest": {
 												"method": "POST",
@@ -771,6 +814,7 @@
 											"body": "\"officia Duis nulla occaeca\""
 										},
 										{
+											"id": "20abcc96-0488-41d3-958d-3f3077e9b114",
 											"name": "Bad Request",
 											"originalRequest": {
 												"method": "POST",
@@ -817,10 +861,15 @@
 										}
 									]
 								}
-							]
+							],
+							"id": "1bd344ac-b497-421f-8c92-8458fc148cfe"
 						},
 						{
 							"name": "Get user",
+							"id": "0342a9fe-3dcf-40a4-9455-14815e2770f4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [
@@ -850,6 +899,7 @@
 							},
 							"response": [
 								{
+									"id": "61d02a32-577a-48d8-b431-fe9c1824def1",
 									"name": "OK",
 									"originalRequest": {
 										"method": "GET",
@@ -885,6 +935,7 @@
 									"body": "\"officia Duis nulla occaeca\""
 								},
 								{
+									"id": "bb8d62cd-f44a-49de-a267-9bd9dcdeb736",
 									"name": "Bad Request",
 									"originalRequest": {
 										"method": "GET",
@@ -921,10 +972,15 @@
 								}
 							]
 						}
-					]
+					],
+					"id": "56840099-2a7e-4ff2-973e-3f51146c6b96"
 				},
 				{
 					"name": "Get users",
+					"id": "e3eeaa2b-3cab-4928-bbcb-211ee6c22092",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -953,6 +1009,7 @@
 					},
 					"response": [
 						{
+							"id": "861940ba-f09b-4797-aee8-a680ee577e8b",
 							"name": "OK",
 							"originalRequest": {
 								"method": "GET",
@@ -986,6 +1043,7 @@
 							"body": "\"officia Duis nulla occaeca\""
 						},
 						{
+							"id": "c56e7599-eaef-49ca-afb4-e27f4f39438d",
 							"name": "Bad Request",
 							"originalRequest": {
 								"method": "GET",
@@ -1022,6 +1080,10 @@
 				},
 				{
 					"name": "Creat user",
+					"id": "10b3e8aa-d309-4ada-a4ae-9235cb116a3f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1056,6 +1118,7 @@
 					},
 					"response": [
 						{
+							"id": "665f0b99-8071-488f-b061-cb8a4d5b3c6a",
 							"name": "OK",
 							"originalRequest": {
 								"method": "POST",
@@ -1092,6 +1155,7 @@
 							"body": "\"officia Duis nulla occaeca\""
 						},
 						{
+							"id": "65991996-e984-4c9b-bed1-c7ae538ebef5",
 							"name": "Bad Request",
 							"originalRequest": {
 								"method": "POST",
@@ -1129,7 +1193,8 @@
 						}
 					]
 				}
-			]
+			],
+			"id": "b0103ad9-bbfc-45fd-9e49-05e2811400e9"
 		},
 		{
 			"name": "workspaces",
@@ -1139,6 +1204,10 @@
 					"item": [
 						{
 							"name": "Get workspace",
+							"id": "d570977b-3dd2-4360-b149-f4dcf7366253",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [
@@ -1168,6 +1237,7 @@
 							},
 							"response": [
 								{
+									"id": "5663f3aa-3422-4b84-a522-c016d34a90ac",
 									"name": "OK",
 									"originalRequest": {
 										"method": "GET",
@@ -1203,6 +1273,7 @@
 									"body": "\"officia Duis nulla occaeca\""
 								},
 								{
+									"id": "8d8f58b0-e92f-4fd3-9aff-24f1f10cef0d",
 									"name": "Bad Request",
 									"originalRequest": {
 										"method": "GET",
@@ -1241,6 +1312,10 @@
 						},
 						{
 							"name": "Get all users",
+							"id": "fa3c2c4d-28e3-4aa9-bad7-52e5b1d3152e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [
@@ -1271,6 +1346,7 @@
 							},
 							"response": [
 								{
+									"id": "5a86f337-1855-4f88-8533-5e528c9f0ad3",
 									"name": "OK",
 									"originalRequest": {
 										"method": "GET",
@@ -1307,6 +1383,7 @@
 									"body": "\"officia Duis nulla occaeca\""
 								},
 								{
+									"id": "61a371c2-ea3a-41a6-b2fb-10c223c3a03a",
 									"name": "Bad Request",
 									"originalRequest": {
 										"method": "GET",
@@ -1344,10 +1421,15 @@
 								}
 							]
 						}
-					]
+					],
+					"id": "0d65e4a6-cdc2-4393-b181-5a605f0734fa"
 				},
 				{
 					"name": "Get workspaces",
+					"id": "990f82d4-464e-42af-a7a3-76d1d7b85be8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -1369,6 +1451,7 @@
 					},
 					"response": [
 						{
+							"id": "be066021-479f-4da7-9029-a340cf65f94a",
 							"name": "OK",
 							"originalRequest": {
 								"method": "GET",
@@ -1396,6 +1479,7 @@
 							"body": "\"officia Duis nulla occaeca\""
 						},
 						{
+							"id": "6fd9b459-9958-4189-b7d6-8c0113392f08",
 							"name": "Bad Request",
 							"originalRequest": {
 								"method": "GET",
@@ -1426,6 +1510,10 @@
 				},
 				{
 					"name": "Creat workspace",
+					"id": "b3f332b8-d965-4e78-a011-34c606d16028",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1460,6 +1548,7 @@
 					},
 					"response": [
 						{
+							"id": "baff312f-7e17-4d3c-8a71-4c2127c93320",
 							"name": "OK",
 							"originalRequest": {
 								"method": "POST",
@@ -1496,6 +1585,7 @@
 							"body": "\"officia Duis nulla occaeca\""
 						},
 						{
+							"id": "c528c39d-a0f4-42ff-9ac4-b0b0c57ec290",
 							"name": "Bad Request",
 							"originalRequest": {
 								"method": "POST",
@@ -1533,13 +1623,37 @@
 						}
 					]
 				}
-			]
+			],
+			"id": "d30cb313-9b5f-4d92-b15c-72951c2c0774"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4f41ef76-128a-474a-b159-c55f621ff49b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "591751bf-7f43-465f-ad34-ed309b4f5461",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"variable": [
 		{
+			"id": "7172fdfd-ec55-4b21-8f3d-498a268d42af",
 			"key": "baseUrl",
-			"value": "//localhost:8080/api/v1",
+			"value": "localhost:8080/api/v1",
 			"type": "string"
 		}
 	]
