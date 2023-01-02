@@ -50,6 +50,9 @@ spec:
             periodSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: CFG_HOST
+              value: {{ .Values.ingress.host | quote }}
           envFrom:
             - secretRef:
                 name: wikileet-api

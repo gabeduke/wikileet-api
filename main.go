@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	docs "github.com/gabeduke/wikileet-api/docs"
 	"github.com/gabeduke/wikileet-api/pkg/config"
 	"github.com/gin-contrib/static"
@@ -23,15 +24,11 @@ import (
 //	@license.name	Apache 2.0
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-//	@host		wikileet.leetserve.com
-//	@host		dev.wikileet.leetserve.com
-//	@host		test.wikileet.leetserve.com
-//	@host		localhost:8080
-//	@BasePath	/api/v1
-
-//	@securitydefinitions.oauth2.application					OAuth2Application
-//	@tokenUrl												https://oauth2.googleapis.com/token
-//	@scope.https://www.googleapis.com/auth/userinfo.email	See your primary Google Account email address
+// @host		wikileet.leetserve.com
+// @host		dev.wikileet.leetserve.com
+// @host		test.wikileet.leetserve.com
+// @host		localhost:8080
+// @BasePath	/api/v1
 func main() {
 	logrus.Info("Starting Wikileet API")
 
@@ -43,8 +40,14 @@ func main() {
 
 	logrus.Infof("%+v", config)
 
+	host := config.Host
+	if config.Port != 0 {
+		host = fmt.Sprintf("%s:%d", config.Host, config.Port)
+	}
+	docs.SwaggerInfo.Host = host
+
 	// Connect to database
-	app, err := config.ParseDialerConfig().Dial()
+	app, err := config.ParseDialerConfig().Connect()
 	if err != nil {
 		log.Fatal(err)
 	}

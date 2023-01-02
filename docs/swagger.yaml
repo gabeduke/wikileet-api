@@ -1,4 +1,49 @@
 basePath: /api/v1
+definitions:
+  app.createItemInput:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      url:
+        type: string
+      user_email:
+        type: string
+      workspace:
+        type: string
+    required:
+    - name
+    - user_email
+    type: object
+  app.createUserInput:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  app.createWorkspaceInput:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  app.updateItemInput:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      url:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -31,6 +76,10 @@ paths:
           description: OK
           schema:
             type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
       summary: Get items
       tags:
       - item
@@ -44,25 +93,35 @@ paths:
         in: query
         name: user_email
         type: string
-      - description: associate item with workspace
-        format: email
-        in: query
-        name: workspace
-        type: string
-      - description: Item name
-        format: email
-        in: query
-        name: name
-        type: string
-      - description: Item description
-        format: email
-        in: query
-        name: description
-        type: string
-      - description: Item help URL
-        format: email
-        in: query
-        name: url
+      - description: Item data
+        in: body
+        name: data
+        schema:
+          $ref: '#/definitions/app.createItemInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create item
+      tags:
+      - item
+  /items/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete item by id.
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
         type: string
       produces:
       - application/json
@@ -71,19 +130,8 @@ paths:
           description: OK
           schema:
             type: string
-      summary: Create item
-      tags:
-      - item
-  /items/:id:
-    delete:
-      consumes:
-      - application/json
-      description: Delete item by id.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
+        "400":
+          description: Bad Request
           schema:
             type: string
       summary: Delete item
@@ -100,6 +148,10 @@ paths:
           description: OK
           schema:
             type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
       summary: Get item
       tags:
       - item
@@ -107,11 +159,21 @@ paths:
       consumes:
       - application/json
       description: Get item by id.
+      parameters:
+      - description: Item data
+        in: body
+        name: data
+        schema:
+          $ref: '#/definitions/app.updateItemInput'
       produces:
       - application/json
       responses:
         "200":
           description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
           schema:
             type: string
       summary: Update item
@@ -135,6 +197,10 @@ paths:
           description: OK
           schema:
             type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
       summary: Get users
       tags:
       - user
@@ -143,31 +209,36 @@ paths:
       - application/json
       description: Create a new user.
       parameters:
-      - description: associate item with user
-        format: email
-        in: query
-        name: user_email
-        type: string
-      - description: Username
-        format: email
-        in: query
-        name: name
-        type: string
+      - description: User data
+        in: body
+        name: data
+        schema:
+          $ref: '#/definitions/app.createUserInput'
       produces:
       - application/json
       responses:
         "200":
           description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
           schema:
             type: string
       summary: Creat user
       tags:
       - user
-  /users/:id:
+  /users/{id}:
     get:
       consumes:
       - application/json
       description: Get user by id.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -175,9 +246,68 @@ paths:
           description: OK
           schema:
             type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
       summary: Get user
       tags:
       - user
+  /users/{id}/items:
+    get:
+      consumes:
+      - application/json
+      description: List items by user email.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get items
+      tags:
+      - item
+    post:
+      consumes:
+      - application/json
+      description: Create a new item.
+      parameters:
+      - description: User data
+        in: body
+        name: data
+        schema:
+          $ref: '#/definitions/app.createItemInput'
+      - description: User ID
+        format: uuid
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create item
+      tags:
+      - item
   /workspaces:
     get:
       consumes:
@@ -190,6 +320,10 @@ paths:
           description: OK
           schema:
             type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
       summary: Get workspaces
       tags:
       - workspace
@@ -197,75 +331,61 @@ paths:
       consumes:
       - application/json
       description: Create a new workspace.
+      parameters:
+      - description: Workspace data
+        in: body
+        name: data
+        schema:
+          $ref: '#/definitions/app.createWorkspaceInput'
       produces:
       - application/json
       responses:
         "200":
           description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
           schema:
             type: string
       summary: Creat workspace
       tags:
       - workspace
-  /workspaces/:id:
+  /workspaces/{id}:
     get:
       consumes:
       - application/json
       description: Get workspace by id.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
           schema:
             type: string
       summary: Get workspace
       tags:
       - workspace
-  /workspaces/:id/users/:id/items:
+  /workspaces/{id}/users:
     get:
       consumes:
       - application/json
-      description: List items by user email.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: Get items
-      tags:
-      - item
-    post:
-      consumes:
-      - application/json
-      description: Create a new item.
+      description: Get all users.
       parameters:
-      - description: associate item with user
-        format: email
-        in: query
-        name: user_email
-        type: string
-      - description: associate item with workspace
-        format: email
-        in: query
-        name: workspace
-        type: string
-      - description: Item name
-        format: email
-        in: query
-        name: name
-        type: string
-      - description: Item description
-        format: email
-        in: query
-        name: description
-        type: string
-      - description: Item help URL
-        format: email
-        in: query
-        name: url
+      - description: Workspace ID
+        in: path
+        name: id
+        required: true
         type: string
       produces:
       - application/json
@@ -274,15 +394,11 @@ paths:
           description: OK
           schema:
             type: string
-      summary: Create item
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get all users
       tags:
-      - item
-securityDefinitions:
-  OAuth2Application:
-    flow: application
-    scopes:
-      https://www.googleapis.com/auth/userinfo.email: "\tSee your primary Google Account
-        email address"
-    tokenUrl: https://oauth2.googleapis.com/token
-    type: oauth2
+      - user
 swagger: "2.0"

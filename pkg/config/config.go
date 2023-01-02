@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/gabeduke/wikileet-api/pkg/store"
+	"github.com/gabeduke/wikileet-api/pkg/database"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -19,6 +19,7 @@ type AppConfig struct {
 	AuthInternal     bool   `split_words:"true" default:"false"`
 	SessionSecret    string `split_words:"true" default:"secret"`
 	Domain           string `default:"localhost"`
+	Host             string `default:"localhost"`
 	Zone             string `default:"test"`
 	DatabaseHost     string `split_words:"true" default:"localhost"`
 	DatabasePort     int    `split_words:"true" default:"5432"`
@@ -29,7 +30,7 @@ type AppConfig struct {
 
 // AppConfigI is an interface for the AppConfig struct
 type AppConfigI interface {
-	ParseDialerConfig() *store.Dialer
+	ParseDialerConfig() *database.Dialer
 }
 
 func (a *AppConfig) GetSessionSecret() string {
@@ -49,8 +50,8 @@ func (a *AppConfig) GetZone() string {
 }
 
 // ParseDialerConfig parses the config into a Dialer struct
-func (a *AppConfig) ParseDialerConfig() *store.Dialer {
-	dialer := &store.Dialer{
+func (a *AppConfig) ParseDialerConfig() *database.Dialer {
+	dialer := &database.Dialer{
 		Host:     a.DatabaseHost,
 		Port:     a.DatabasePort,
 		User:     a.DatabaseUser,

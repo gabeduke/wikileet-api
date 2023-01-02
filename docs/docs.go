@@ -53,6 +53,12 @@ const docTemplate = `{
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             },
@@ -77,32 +83,12 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "format": "email",
-                        "description": "associate item with workspace",
-                        "name": "workspace",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Item name",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Item description",
-                        "name": "description",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Item help URL",
-                        "name": "url",
-                        "in": "query"
+                        "description": "Item data",
+                        "name": "data",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/app.createItemInput"
+                        }
                     }
                 ],
                 "responses": {
@@ -111,11 +97,17 @@ const docTemplate = `{
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
         },
-        "/items/:id": {
+        "/items/{id}": {
             "get": {
                 "description": "Get item by id.",
                 "consumes": [
@@ -134,6 +126,12 @@ const docTemplate = `{
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             },
@@ -149,9 +147,24 @@ const docTemplate = `{
                     "item"
                 ],
                 "summary": "Delete item",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "type": "string"
                         }
@@ -170,9 +183,25 @@ const docTemplate = `{
                     "item"
                 ],
                 "summary": "Update item",
+                "parameters": [
+                    {
+                        "description": "Item data",
+                        "name": "data",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/app.updateItemInput"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "type": "string"
                         }
@@ -208,6 +237,12 @@ const docTemplate = `{
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             },
@@ -225,18 +260,12 @@ const docTemplate = `{
                 "summary": "Creat user",
                 "parameters": [
                     {
-                        "type": "string",
-                        "format": "email",
-                        "description": "associate item with user",
-                        "name": "user_email",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Username",
-                        "name": "name",
-                        "in": "query"
+                        "description": "User data",
+                        "name": "data",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/app.createUserInput"
+                        }
                     }
                 ],
                 "responses": {
@@ -245,11 +274,17 @@ const docTemplate = `{
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
         },
-        "/users/:id": {
+        "/users/{id}": {
             "get": {
                 "description": "Get user by id.",
                 "consumes": [
@@ -262,9 +297,107 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "Get user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/items": {
+            "get": {
+                "description": "List items by user email.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "item"
+                ],
+                "summary": "Get items",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new item.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "item"
+                ],
+                "summary": "Create item",
+                "parameters": [
+                    {
+                        "description": "User data",
+                        "name": "data",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/app.createItemInput"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "type": "string"
                         }
@@ -291,6 +424,12 @@ const docTemplate = `{
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             },
@@ -306,9 +445,25 @@ const docTemplate = `{
                     "workspace"
                 ],
                 "summary": "Creat workspace",
+                "parameters": [
+                    {
+                        "description": "Workspace data",
+                        "name": "data",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/app.createWorkspaceInput"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "type": "string"
                         }
@@ -316,7 +471,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/workspaces/:id": {
+        "/workspaces/{id}": {
             "get": {
                 "description": "Get workspace by id.",
                 "consumes": [
@@ -329,9 +484,24 @@ const docTemplate = `{
                     "workspace"
                 ],
                 "summary": "Get workspace",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Workspace ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "type": "string"
                         }
@@ -339,9 +509,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/workspaces/:id/users/:id/items": {
+        "/workspaces/{id}/users": {
             "get": {
-                "description": "List items by user email.",
+                "description": "Get all users.",
                 "consumes": [
                     "application/json"
                 ],
@@ -349,70 +519,27 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "item"
+                    "user"
                 ],
-                "summary": "Get items",
+                "summary": "Get all users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Workspace ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "string"
                         }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a new item.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "item"
-                ],
-                "summary": "Create item",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "associate item with user",
-                        "name": "user_email",
-                        "in": "query"
                     },
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "associate item with workspace",
-                        "name": "workspace",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Item name",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Item description",
-                        "name": "description",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Item help URL",
-                        "name": "url",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "type": "string"
                         }
@@ -421,13 +548,72 @@ const docTemplate = `{
             }
         }
     },
-    "securityDefinitions": {
-        "OAuth2Application": {
-            "type": "oauth2",
-            "flow": "application",
-            "tokenUrl": "https://oauth2.googleapis.com/token",
-            "scopes": {
-                "https://www.googleapis.com/auth/userinfo.email": "\tSee your primary Google Account email address"
+    "definitions": {
+        "app.createItemInput": {
+            "type": "object",
+            "required": [
+                "name",
+                "user_email"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "user_email": {
+                    "type": "string"
+                },
+                "workspace": {
+                    "type": "string"
+                }
+            }
+        },
+        "app.createUserInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "app.createWorkspaceInput": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "app.updateItemInput": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
             }
         }
     }
