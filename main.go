@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	docs "github.com/gabeduke/wikileet-api/docs"
 	"github.com/gabeduke/wikileet-api/pkg/config"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	swaggerfiles "github.com/swaggo/files"
@@ -22,14 +24,11 @@ import (
 //	@license.name	Apache 2.0
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-//	@host		https://wikileet.leetserve.com
-//	@host		https://dev.wikileet.leetserve.com
-//	@host		http://localhost:8080
-//	@BasePath	/api/v1
-
-//	@securitydefinitions.oauth2.application					OAuth2Application
-//	@tokenUrl												https://oauth2.googleapis.com/token
-//	@scope.https://www.googleapis.com/auth/userinfo.email	See your primary Google Account email address
+// @host		wikileet.leetserve.com
+// @host		dev.wikileet.leetserve.com
+// @host		test.wikileet.leetserve.com
+// @host		localhost:8080
+// @BasePath	/api/v1
 func main() {
 	logrus.Info("Starting Wikileet API")
 
@@ -41,8 +40,14 @@ func main() {
 
 	logrus.Infof("%+v", config)
 
+	host := config.Host
+	if config.Port != 0 {
+		host = fmt.Sprintf("%s:%d", config.Host, config.Port)
+	}
+	docs.SwaggerInfo.Host = host
+
 	// Connect to database
-	app, err := config.ParseDialerConfig().Dial()
+	app, err := config.ParseDialerConfig().Connect()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -53,29 +58,74 @@ func main() {
 		log.Fatal(err)
 	}
 
+	auth, err := app.GetAuthMiddleware(config.GetSessionSecret(), config.GetDomain(), config.GetZone(), config.GetAuthInternal())
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Configure router
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	r := gin.New()
 	r.Use(
 		gin.LoggerWithWriter(gin.DefaultWriter, "/live", "/ready"),
 		gin.Recovery(),
-		app.GetUserMiddleware(),
+		CORSMiddleware(),
 	)
 
 	r.GET("/live", gin.WrapF(health.LiveEndpoint))
 	r.GET("/ready", gin.WrapF(health.ReadyEndpoint))
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	r.GET("/login", auth.LoginHandler)
+	r.POST("/login", auth.LoginHandler)
+	r.GET("/refresh_token", auth.RefreshHandler)
 
-	// Register routes
 	v1 := r.Group("/api/v1")
+	v1.Use(auth.MiddlewareFunc())
 
-	// Register routes
+	// Register items routes
 	v1.GET("/items", app.GetItems)
 	v1.POST("/items", app.CreateItem)
-	v1.GET("/items/:id", app.GetItem)
-	v1.PATCH("/items/:id", app.UpdateItem)
-	v1.DELETE("/items/:id", app.DeleteItem)
+	v1.GET("/items/:item", app.GetItem)
+	v1.PATCH("/items/:item", app.UpdateItem)
+	v1.DELETE("/items/:item", app.DeleteItem)
+
+	// Register workspace routes
+	workspaces := v1.Group("/workspaces")
+	workspaces.GET("/", app.GetWorkspaces)
+	workspaces.POST("/", app.CreateWorkspace)
+	workspaces.GET("/:workspace", app.GetWorkspace)
+
+	// Register user routes
+	users := v1.Group("/users")
+	users.GET("/", app.GetWorkspaceUsers)
+	users.POST("/", app.CreateUser)
+	users.GET("/:user", app.GetUser)
+
+	userItems := users.Group("/:user/items")
+	userItems.GET("/", app.GetUserItems)
+	userItems.POST("/", app.CreateUserItem)
+	userItems.GET("/:item", app.GetItem)
+	userItems.PATCH("/:item", app.UpdateItem)
+	userItems.DELETE("/:item", app.DeleteItem)
+
+	r.Use(static.Serve("/", static.LocalFile("./frontend/wikileet-ui/dist", false)))
 
 	// Start and run the server
 	r.Run()
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With, X-User, X-Workspace")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }

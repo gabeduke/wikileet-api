@@ -20,16 +20,23 @@ postgres:
 configmapValues:
   CFG_DATABASE_HOST: "wikileet.coetmusgho2c.us-east-1.rds.amazonaws.com"
   CFG_DATABASE_PORT: "5432"
-  CFG_DATABASE_NAME: "postgres"
+  CFG_DATABASE_NAME: "develop"
   CFG_DATABASE_USER: "postgres"
+  CFG_DOMAIN: "leetserve.com"
 
 replicaCount: 2
 
-image:
-  repository: docker.io/dukeman/wikileet
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+api:
+  image:
+    repository: docker.io/dukeman/wikileet-api
+    pullPolicy: Always
+    tag: "latest"
+
+ui:
+  image:
+    repository: docker.io/dukeman/wikileet-ui
+    pullPolicy: IfNotPresent
+    tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -65,20 +72,16 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: traefik
-    "external-dns.alpha.kubernetes.io/hostname": "api.wikileet.leetserve.com"
+    "external-dns.alpha.kubernetes.io/hostname": "test.wikileet.leetserve.com"
     "ingress.kubernetes.io/ssl-redirect": "true"
     "cert-manager.io/cluster-issuer": "letsencrypt-prod"
     "traefik.ingress.kubernetes.io/router.middlewares": kube-system-traefik-forward-auth@kubernetescrd
+  host: test.wikileet.leetserve.com
 
-  hosts:
-    - host: api.wikileet.leetserve.com
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
   tls:
     - secretName: wikileet-tls
       hosts:
-        - api.wikileet.leetserve.com
+        - test.wikileet.leetserve.com
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

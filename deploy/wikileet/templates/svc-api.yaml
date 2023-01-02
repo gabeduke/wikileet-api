@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "wikileet.fullname" . }}
+  name: {{ include "wikileet-api.name" . }}
   labels:
-    {{- include "wikileet.labels" . | nindent 4 }}
+    {{- include "wikileet-api.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "wikileet.selectorLabels" . | nindent 4 }}
+    {{- include "wikileet-api.selectorLabels" . | nindent 4 }}
