@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite --mode develop",
-    "build": "vite build",
-    "watch": "vite build --watch",
-    "preview": "vite preview",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    "dev": "node_modules/.bin/vite --mode develop",
+    "build": "node_modules/.bin/vite build",
+    "watch": "node_modules/.bin/vite build --watch",
+    "preview": "node_modules/.bin/vite preview",
+    "lint": "node_modules/.bin/eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "axios": "^1.2.1",

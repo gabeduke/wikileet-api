@@ -108,7 +108,7 @@ func main() {
 	userItems.PATCH("/:item", app.UpdateItem)
 	userItems.DELETE("/:item", app.DeleteItem)
 
-	r.Use(static.Serve("/", static.LocalFile("./frontend/wikileet-ui/dist", false)))
+	r.Use(static.Serve("/", static.LocalFile("./web/dist", false)))
 
 	// Start and run the server
 	r.Run()
