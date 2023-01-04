@@ -58,7 +58,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	auth, err := app.GetAuthMiddleware(config.GetSessionSecret(), config.GetDomain(), config.GetZone(), config.GetAuthInternal())
+	auth, err := app.GetAuthMiddleware(config.GetSessionSecret(), config.GetDomain(), config.GetZone())
 	if err != nil {
 		log.Fatal(err)
 	}

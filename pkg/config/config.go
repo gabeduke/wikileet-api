@@ -45,6 +45,10 @@ func (a *AppConfig) GetDomain() string {
 	return a.Domain
 }
 
+func (a *AppConfig) GetHost() string {
+	return a.Host
+}
+
 func (a *AppConfig) GetZone() string {
 	return a.Zone
 }

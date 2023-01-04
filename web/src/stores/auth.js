@@ -15,32 +15,19 @@ export const useAuthStore = defineStore({
         returnUrl: null
     }),
     actions: {
-        async getToken(){
-            const resp = await axios.get(API_URL+"/login")
-                 .then((res) => {
-                     //Perform Success Action
-                     console.log(res);
-                 })
-                 .catch((error) => {
-                    error.response.status == 401 ? alert("Invalid Credentials") : alert("Something went wrong");
-                 }).finally(() => {
-                     this.token = resp.token;
-                    localStorage.setItem('token', JSON.stringify(resp.token));
-                    router.push(this.returnUrl || '/');
-                 });
-        },
         async login(username, password) {
             const resp = await fetchWrapper.post(`${API_URL}/login`, { username, password });
-
+            this.saveToken(resp)
+            await router.push(this.returnUrl || '/');
+        },
+        saveToken(response) {
             // update pinia state
-            this.token = resp.token;
+            this.token = response.token;
 
             // store user details and jwt in local storage to keep user logged in between page refreshes
-            localStorage.setItem('token', JSON.stringify(resp.token));
+            localStorage.setItem('token', JSON.stringify(response.token));
 
             this.decodeToken()
-            // redirect to previous url or default to home page
-            router.push(this.returnUrl || '/');
         },
         logout() {
             this.token = null;

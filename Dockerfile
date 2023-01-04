@@ -16,7 +16,7 @@ COPY go.sum ./
 RUN go mod download
 
 COPY . ./
-COPY --from=frontend /app/dist ./frontend/dist
+COPY --from=frontend /app/dist ./web/dist
 
 RUN go build -o /wikileet
 
