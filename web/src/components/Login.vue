@@ -1,74 +1,48 @@
-<script>
-import axios from 'axios';
+<script setup>
+import { Form, Field } from 'vee-validate';
+import * as Yup from 'yup';
 
-const BASE_URL = import.meta.env.VITE_BASE_URL || "";
-const API_URL = `${BASE_URL}`;
+import { useAuthStore } from '../stores/auth';
 
-export default {
-    name: 'LoginFormAxios',
-    data(){
-        return{
-            form: {
-                username: '',
-                password: ''
-            }
-        }
-    },
-    methods:{
-        async getToken(){
-            await axios.get(API_URL+"/login")
-                 .then((res) => {
-                     //Perform Success Action
-                     console.log(res);
-                 })
-                 .catch((error) => {
-                    error.response.status == 401 ? alert("Invalid Credentials") : alert("Something went wrong");
-                 }).finally(() => {
-                     alert("Login Successful")
-                     this.$router.push('/list');
-                 });
-        },
-        async submitForm(){
-            await axios.post(API_URL+"/login", this.form)
-                 .then((res) => {
-                     //Perform Success Action
-                     console.log(res);
-                 })
-                 .catch((error) => {
-                    error.response.status == 401 ? alert("Invalid Credentials") : alert("Something went wrong");
-                 }).finally(() => {
-                     //Perform action in always
-                     alert("Login Successful")
-                     this.resetForm();
-                     this.$router.push('/list');
-                 });
-        },
-        resetForm () {
-            this.$refs.login.reset()
-        }
-    }
+const schema = Yup.object().shape({
+  username: Yup.string().required('Username is required'),
+  password: Yup.string().required('Password is required')
+});
+
+function onSubmit(values, { setErrors }) {
+  const authStore = useAuthStore();
+  const { username, password } = values;
+
+  return authStore.login(username, password)
+      .catch(error => setErrors({ apiError: error }));
 }
 </script>
 
 <template>
-    <div>
-        <h2> Login user</h2>
-        <div>
-            <button @click="getToken">Get Token</button>
-        </div>
-        <h2> Login admin </h2>
-        <form ref="login" v-on:submit.prevent="submitForm">
-            <div class="form-group">
-                <label for="username">Name</label>
-                <input type="text" class="form-control" id="username" placeholder="Username" v-model="form.username">
-            </div>
-            <div class="form-group">
-                <label for="password">Name</label>
-                <input type="password" class="form-control" id="password" v-model="form.password">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary">Submit</button>
-            </div>
-        </form>
+  <div>
+    <div class="alert alert-info">
+      Username: test<br />
+      Password: test
     </div>
+    <h2>Login</h2>
+    <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+      <div class="form-group">
+        <label>Username</label>
+        <Field name="username" type="text" class="form-control" :class="{ 'is-invalid': errors.username }" />
+        <div class="invalid-feedback">{{errors.username}}</div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <Field name="password" type="password" class="form-control" :class="{ 'is-invalid': errors.password }" />
+        <div class="invalid-feedback">{{errors.password}}</div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" :disabled="isSubmitting">
+          <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
+          Login
+        </button>
+      </div>
+      <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{errors.apiError}}</div>
+    </Form>
+  </div>
 </template>
