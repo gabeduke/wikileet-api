@@ -9,12 +9,13 @@ defineProps({
 
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
+    <h1 class="green">Wikileet Gift Lists <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/></h1>
     <h3>
-      You have arrived at your gift exchange destination.
+      {{ msg }}
     </h3>
   </div>
 </template>
+
 
 <style scoped>
 h1 {
@@ -31,7 +32,6 @@ h3 {
 .greetings h3 {
   text-align: center;
 }
-
 @media (min-width: 1024px) {
   .greetings h1,
   .greetings h3 {

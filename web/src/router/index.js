@@ -11,7 +11,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/create',
+      path: '/', // im not sure if this breaks things or not
       name: 'Create',
       component: CreateView
     },

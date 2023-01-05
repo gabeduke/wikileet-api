@@ -10,23 +10,30 @@ const authStore = useAuthStore();
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
+   
     <div class="wrapper">
-      <Welcome msg="Wikileet Gift Lists" />
-
-      <nav v-show="authStore.token">
-        <!-- <RouterLink to="/">Home</RouterLink> -->
-        <RouterLink to="/list">List</RouterLink>
-        <RouterLink to="/create">Create</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
-        <a @click="authStore.logout()" >Logout</a>
-      </nav>
+      <!-- Default-->
+      <div v-if="!authStore.token">
+        <Welcome msg="You have arrived at your gift exchange destination." />
+        <nav v-show="authStore.token">
+          <RouterLink to="/login">Login</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+        </nav>
+      </div>
+      <!-- Logged In Users -->
+      <div v-show="authStore.token" v-if="authStore.token">
+        <Welcome msg="Welcome Back!" msg-action="Logout"/> | 
+        <nav v-show="authStore.token">
+          <h2><RouterLink to="/list">Gift Lists</RouterLink></h2>
+          <RouterLink to="/create">(+) item</RouterLink>
+          <h2><RouterLink to="/list">MY List</RouterLink></h2>
+        </nav>
+      </div>
     </div>
   </header>
-
-  <RouterView />
+  <div class="body">
+    <RouterView/>
+  </div>
 </template>
 
 <style scoped>
@@ -40,11 +47,13 @@ header {
   margin: 0 auto 2rem;
 }
 
-nav {
-  width: 100%;
+nav  {
   font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  margin: 2rem 1rem 0rem 1rem;
+  width: 80%;
+  padding:1rem;
+  text-align: left;
+  background-color: rgba(240, 248, 255, 0.19);
 }
 
 nav a.router-link-exact-active {
@@ -56,15 +65,33 @@ nav a.router-link-exact-active:hover {
 }
 
 nav a {
-  display: inline-block;
-  padding: 0 1rem;
+  display: block;
+  padding: 0.5rem 1rem;
   border-left: 1px solid var(--color-border);
+}
+
+nav h2 a {
+  font-weight: bold;
+  font-size: larger;
+}
+
+nav h3 a {
+  font-weight: normal;
+  font-size: large;
+  text-indent: 1rem;
 }
 
 nav a:first-of-type {
   border: 0;
-}
 
+}
+nav a .logout {
+  font-size:80%;
+  color: rgba(240, 248, 255, 0.19);
+  text-align:right;
+  display:inline-flexbox;
+  float:right;
+}
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -77,7 +104,7 @@ nav a:first-of-type {
   }
 
   header .wrapper {
-    display: flex;
+    display: flexbox;
     place-items: flex-start;
     flex-wrap: wrap;
   }
@@ -86,7 +113,7 @@ nav a:first-of-type {
     text-align: left;
     margin-left: -1rem;
     font-size: 1rem;
-
+    display: flexbox;
     padding: 1rem 0;
     margin-top: 1rem;
   }
