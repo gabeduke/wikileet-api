@@ -13,6 +13,31 @@ type Controller struct {
 	DB *gorm.DB
 }
 
+// GetProfile GET /profile
+// Get a user's profile
+//
+//	@Summary		Get profile
+//	@Schemes		http https
+//	@Description	Get logged-in user profile
+//	@Tags			user
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{string}	model.User
+//	@Failure		400	{string}	error
+//	@Router			/profile [get]
+func (a *Controller) GetProfile(c *gin.Context) {
+	var user User
+	jwt.ExtractClaims(c)
+	claims := jwt.ExtractClaims(c)
+
+	if err := a.DB.Where("email = ?", claims[identityKey]).First(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": user})
+}
+
 //	@BasePath	/api/v1
 
 // GetUsers GET /users
