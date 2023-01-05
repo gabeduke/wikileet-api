@@ -42,7 +42,7 @@ export default {
             this.$refs.create.reset()
         },
         async fetchUsers() {
-            await axios.get(API_URL+"/users").then(response => (this.users = response.data.data))
+            await axios.get(API_URL+"/users").then(response => (this.users = response.data))
             console.log(this.users);
         }
     }

@@ -9,4 +9,4 @@ helm:
 .PHONY: docs
 docs:
 	swag fmt ./...
-	swag init
+	swag init --parseDependency --parseInternal
