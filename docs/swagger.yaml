@@ -1,5 +1,74 @@
 basePath: /api/v1
 definitions:
+  app.Item:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+      url:
+        type: string
+      user_id:
+        type: integer
+      workspace_id:
+        type: integer
+    type: object
+  app.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/app.Item'
+        type: array
+      name:
+        type: string
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+      workspaces:
+        items:
+          $ref: '#/definitions/app.Workspace'
+        type: array
+    required:
+    - email
+    type: object
+  app.Workspace:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/app.User'
+        type: array
+    type: object
   app.createItemInput:
     properties:
       description:
@@ -44,6 +113,14 @@ definitions:
       url:
         type: string
     type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -75,7 +152,9 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/app.Item'
+            type: array
         "400":
           description: Bad Request
           schema:
@@ -104,7 +183,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Item'
         "400":
           description: Bad Request
           schema:
@@ -126,10 +205,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
-          schema:
-            type: string
+        "204":
+          description: No Content
         "400":
           description: Bad Request
           schema:
@@ -147,7 +224,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Item'
         "400":
           description: Bad Request
           schema:
@@ -171,7 +248,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Item'
         "400":
           description: Bad Request
           schema:
@@ -183,14 +260,14 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get logged in user profile
+      description: Get logged-in user profile
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.User'
         "400":
           description: Bad Request
           schema:
@@ -215,7 +292,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Item'
         "400":
           description: Bad Request
           schema:
@@ -239,7 +316,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.User'
         "400":
           description: Bad Request
           schema:
@@ -264,7 +341,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.User'
         "400":
           description: Bad Request
           schema:
@@ -289,7 +366,9 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/app.Item'
+            type: array
         "400":
           description: Bad Request
           schema:
@@ -319,7 +398,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Item'
         "400":
           description: Bad Request
           schema:
@@ -338,7 +417,9 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/app.Workspace'
+            type: array
         "400":
           description: Bad Request
           schema:
@@ -362,7 +443,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Workspace'
         "400":
           description: Bad Request
           schema:
@@ -387,7 +468,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/app.Workspace'
         "400":
           description: Bad Request
           schema:
@@ -412,7 +493,9 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/app.User'
+            type: array
         "400":
           description: Bad Request
           schema:

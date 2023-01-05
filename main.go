@@ -24,11 +24,11 @@ import (
 //	@license.name	Apache 2.0
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-//	@host		wikileet.leetserve.com
-//	@host		dev.wikileet.leetserve.com
-//	@host		test.wikileet.leetserve.com
-//	@host		localhost:8080
-//	@BasePath	/api/v1
+// @host		wikileet.leetserve.com
+// @host		dev.wikileet.leetserve.com
+// @host		test.wikileet.leetserve.com
+// @host		localhost:8080
+// @BasePath	/api/v1
 func main() {
 	logrus.Info("Starting Wikileet API")
 

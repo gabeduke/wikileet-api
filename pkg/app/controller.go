@@ -22,7 +22,7 @@ type Controller struct {
 //	@Tags			user
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{string}	model.User
+//	@Success		200	{object}	app.User
 //	@Failure		400	{string}	error
 //	@Router			/profile [get]
 func (a *Controller) GetProfile(c *gin.Context) {
@@ -50,7 +50,7 @@ func (a *Controller) GetProfile(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			user_email	query		string	false	"search by email address"	Format(email)
-//	@Success		200			{string}	model.Item
+//	@Success		200			{object}	app.Item
 //	@Failure		400			{string}	error
 //	@Router			/users [get]
 func (a *Controller) GetUsers(c *gin.Context) {
@@ -72,7 +72,7 @@ func (a *Controller) GetUsers(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			user_email	query		string	false	"search by email address"	Format(email)
-//	@Success		200			{string}	model.Item
+//	@Success		200			{array}		app.Item
 //	@Failure		400			{string}	error
 //	@Router			/items [get]
 func (a *Controller) GetItems(c *gin.Context) {
@@ -86,7 +86,7 @@ func (a *Controller) GetItems(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": user.Items})
+	c.JSON(http.StatusOK, user.Items)
 }
 
 // GetUserItems GET /users/:id/items
@@ -99,7 +99,7 @@ func (a *Controller) GetItems(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		string	true	"User ID"
-//	@Success		200	{string}	model.Item
+//	@Success		200	{array}		app.Item
 //	@Failure		400	{string}	error
 //	@Router			/users/{id}/items [get]
 func (a *Controller) GetUserItems(c *gin.Context) {
@@ -110,7 +110,7 @@ func (a *Controller) GetUserItems(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": user.Items})
+	c.JSON(http.StatusOK, user.Items)
 }
 
 // CreateItem POST /items
@@ -124,7 +124,7 @@ func (a *Controller) GetUserItems(c *gin.Context) {
 //	@Produce		json
 //	@Param			user_email	query		string			false	"associate item with user"	Format(email)
 //	@Param			data		body		createItemInput	false	"Item data"
-//	@Success		200			{string}	model.Item
+//	@Success		200			{object}	app.Item
 //	@Failure		400			{string}	error
 //	@Router			/items [post]
 func (a *Controller) CreateItem(c *gin.Context) {
@@ -161,7 +161,7 @@ func (a *Controller) CreateItem(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": item})
+	c.JSON(http.StatusOK, item)
 }
 
 // CreateUserItem POST /users/:id/items
@@ -175,7 +175,7 @@ func (a *Controller) CreateItem(c *gin.Context) {
 //	@Produce		json
 //	@Param			data	body		createItemInput	false	"User data"
 //	@Param			user_id	path		string			true	"User ID"	Format(uuid)
-//	@Success		200		{string}	model.Item
+//	@Success		200		{object}	app.Item
 //	@Failure		400		{string}	error
 //	@Router			/users/{id}/items [post]
 func (a *Controller) CreateUserItem(c *gin.Context) {
@@ -215,7 +215,7 @@ func (a *Controller) CreateUserItem(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": item})
+	c.JSON(http.StatusOK, item)
 }
 
 // GetItem GET /Item/:id
@@ -227,7 +227,7 @@ func (a *Controller) CreateUserItem(c *gin.Context) {
 //	@Tags			item
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{string}	model.Item
+//	@Success		200	{object}	app.Item
 //	@Failure		400	{string}	error
 //	@Router			/items/{id} [get]
 func (a *Controller) GetItem(c *gin.Context) { // Get model if exist
@@ -238,7 +238,7 @@ func (a *Controller) GetItem(c *gin.Context) { // Get model if exist
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": item})
+	c.JSON(http.StatusOK, item)
 }
 
 // UpdateItem PATCH /Item/:id
@@ -251,7 +251,7 @@ func (a *Controller) GetItem(c *gin.Context) { // Get model if exist
 //	@Accept			json
 //	@Produce		json
 //	@Param			data	body		updateItemInput	false	"Item data"
-//	@Success		200		{string}	model.Item
+//	@Success		200		{object}	app.Item
 //	@Failure		400		{string}	error
 //	@Router			/items/{id} [patch]
 func (a *Controller) UpdateItem(c *gin.Context) {
@@ -274,7 +274,7 @@ func (a *Controller) UpdateItem(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": item})
+	c.JSON(http.StatusOK, item)
 }
 
 // DeleteItem DELETE /items/:id
@@ -286,8 +286,8 @@ func (a *Controller) UpdateItem(c *gin.Context) {
 //	@Tags			item
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		string	true	"Item ID"
-//	@Success		200	{string}	model.Item
+//	@Param			id	path	string	true	"Item ID"
+//	@Success		204
 //	@Failure		400	{string}	error
 //	@Router			/items/{id} [delete]
 func (a *Controller) DeleteItem(c *gin.Context) {
@@ -302,7 +302,7 @@ func (a *Controller) DeleteItem(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": true})
+	c.JSON(http.StatusNoContent, nil)
 }
 
 // GetWorkspaceUsers GET /workspaces/:id/users
@@ -315,13 +315,13 @@ func (a *Controller) DeleteItem(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		string	true	"Workspace ID"
-//	@Success		200	{string}	model.User
+//	@Success		200	{array}		app.User
 //	@Failure		400	{string}	error
 //	@Router			/workspaces/{id}/users [get]
 func (a *Controller) GetWorkspaceUsers(c *gin.Context) {
 	var users []User
 	a.DB.Find(&users)
-	c.JSON(http.StatusOK, gin.H{"data": users})
+	c.JSON(http.StatusOK, users)
 }
 
 // CreateUser POST /users
@@ -334,7 +334,7 @@ func (a *Controller) GetWorkspaceUsers(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			data	body		createUserInput	false	"User data"
-//	@Success		200		{string}	model.Item
+//	@Success		200		{object}	app.User
 //	@Failure		400		{string}	error
 //	@Router			/users [post]
 func (a *Controller) CreateUser(c *gin.Context) {
@@ -362,7 +362,7 @@ func (a *Controller) CreateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": user})
+	c.JSON(http.StatusOK, user)
 }
 
 // GetUser GET /users/:id
@@ -375,7 +375,7 @@ func (a *Controller) CreateUser(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		string	true	"User ID"
-//	@Success		200	{string}	model.Item
+//	@Success		200	{object}	app.User
 //	@Failure		400	{string}	error
 //	@Router			/users/{id} [get]
 func (a *Controller) GetUser(c *gin.Context) {
@@ -385,7 +385,7 @@ func (a *Controller) GetUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": user})
+	c.JSON(http.StatusOK, user)
 }
 
 // GetWorkspaces GET /workspaces
@@ -397,7 +397,7 @@ func (a *Controller) GetUser(c *gin.Context) {
 //	@Tags			workspace
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{string}	model.Item
+//	@Success		200	{array}		app.Workspace
 //	@Failure		400	{string}	error
 //	@Router			/workspaces [get]
 func (a *Controller) GetWorkspaces(c *gin.Context) {
@@ -407,7 +407,7 @@ func (a *Controller) GetWorkspaces(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": workspaces})
+	c.JSON(http.StatusOK, workspaces)
 }
 
 // CreateWorkspace POST /workspaces
@@ -420,7 +420,7 @@ func (a *Controller) GetWorkspaces(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			data	body		createWorkspaceInput	false	"Workspace data"
-//	@Success		200		{string}	model.Item
+//	@Success		200		{object}	app.Workspace
 //	@Failure		400		{string}	error
 //	@Router			/workspaces [post]
 func (a *Controller) CreateWorkspace(c *gin.Context) {
@@ -438,7 +438,7 @@ func (a *Controller) CreateWorkspace(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": workspace})
+	c.JSON(http.StatusOK, workspace)
 }
 
 // GetWorkspace GET /workspaces/:id
@@ -451,7 +451,7 @@ func (a *Controller) CreateWorkspace(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		string	true	"Workspace ID"
-//	@Success		200	{string}	model.Item
+//	@Success		200	{object}	app.Workspace
 //	@Failure		400	{string}	error
 //	@Router			/workspaces/{id} [get]
 func (a *Controller) GetWorkspace(c *gin.Context) {
@@ -461,5 +461,5 @@ func (a *Controller) GetWorkspace(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": workspace})
+	c.JSON(http.StatusOK, workspace)
 }

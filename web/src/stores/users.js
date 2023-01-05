@@ -14,7 +14,7 @@ export const useUsersStore = defineStore({
         async getAll() {
             this.users = { loading: true };
             await fetchWrapper.get(`${API_URL}/users`)
-                .then(users => this.users = users.data)
+                .then(users => this.users = users)
                 .catch(error => this.users = { error })
         }
     }
