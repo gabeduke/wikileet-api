@@ -21,7 +21,6 @@ services:
       PGDATA: /pgdata
     volumes:
       - "postgres_data:/pgdata"
-    user: "2000"
     ports:
       - "5432:5432"
     healthcheck:
