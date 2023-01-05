@@ -2,9 +2,9 @@
 FROM node:lts-alpine as frontend
 
 WORKDIR /app
-COPY ./frontend/wikileet-ui/package*.json ./
+COPY web/package*.json ./
 RUN npm install
-COPY ./frontend/wikileet-ui/ .
+COPY web/ .
 RUN npm run build
 
 FROM golang:1.18-alpine
@@ -16,7 +16,7 @@ COPY go.sum ./
 RUN go mod download
 
 COPY . ./
-COPY --from=frontend /app/dist ./frontend/wikileet-ui/dist
+COPY --from=frontend /app/dist ./web/dist
 
 RUN go build -o /wikileet
 

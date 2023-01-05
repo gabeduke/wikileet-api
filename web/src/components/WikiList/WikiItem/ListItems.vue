@@ -30,11 +30,11 @@ export default {
 
   methods: {
     async fetchItems() {
-      await axios.get(API_URL+"/items",{params: {user_email:this.selectUser}}).then(response => (this.items = response.data.data))
+      await axios.get(API_URL+"/items",{params: {user_email:this.selectUser}}).then(response => (this.items = response.data))
       console.log(this.items);
     },
     async fetchUsers() {
-      await axios.get(API_URL+"/users").then(response => (this.users = response.data.data))
+      await axios.get(API_URL+"/users").then(response => (this.users = response.data))
       console.log(this.users);
     },
     async getDefaultUser() {

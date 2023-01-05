@@ -58,7 +58,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	auth, err := app.GetAuthMiddleware(config.GetSessionSecret(), config.GetDomain(), config.GetZone(), config.GetAuthInternal())
+	auth, err := app.GetAuthMiddleware(config.GetSessionSecret(), config.GetDomain(), config.GetZone())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -96,6 +96,7 @@ func main() {
 	workspaces.GET("/:workspace", app.GetWorkspace)
 
 	// Register user routes
+	v1.GET("/profile", app.GetProfile)
 	users := v1.Group("/users")
 	users.GET("/", app.GetWorkspaceUsers)
 	users.POST("/", app.CreateUser)
@@ -108,7 +109,7 @@ func main() {
 	userItems.PATCH("/:item", app.UpdateItem)
 	userItems.DELETE("/:item", app.DeleteItem)
 
-	r.Use(static.Serve("/", static.LocalFile("./frontend/wikileet-ui/dist", false)))
+	r.Use(static.Serve("/", static.LocalFile("./web/dist", false)))
 
 	// Start and run the server
 	r.Run()

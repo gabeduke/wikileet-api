@@ -2,6 +2,10 @@
 import { RouterLink, RouterView } from 'vue-router'
 import Welcome from './components/Welcome.vue'
 
+import { useAuthStore } from './stores/auth';
+
+const authStore = useAuthStore();
+
 </script>
 
 <template>
@@ -11,12 +15,13 @@ import Welcome from './components/Welcome.vue'
     <div class="wrapper">
       <Welcome msg="Wikileet Gift Lists" />
 
-      <nav>
+      <nav v-show="authStore.token">
         <!-- <RouterLink to="/">Home</RouterLink> -->
         <RouterLink to="/list">List</RouterLink>
         <RouterLink to="/create">Create</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
+        <a @click="authStore.logout()" >Logout</a>
       </nav>
     </div>
   </header>
